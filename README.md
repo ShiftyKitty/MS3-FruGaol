@@ -77,6 +77,7 @@ Option for consumers to post offers on business behalf | 1	| 1
 Users to be able to post their own offers/sell own products | 3	| 1
 Notification system to notify/remind users of particular special days | 3 | 1
 GPS tracking on app to show closest offers and deals for user | 3 | 1
+GPS tracking on app to show closest businesses to user | 1 | 1
 		
 
 <br>
