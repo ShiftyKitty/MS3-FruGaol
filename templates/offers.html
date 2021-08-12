@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offers Page</title>
+</head>
+
+<body>
+    <h1>Offers Page</h1>
+    
+    {% for product_offer in product_offers %}
+        {{ product_offer.prod_name }}<br>
+        {{ product_offer.prod_description }}<br>
+        {{ product_offer.price }}<br>
+        {{ product_offer.prod_img }}<br>
+        {{ product_offer.business_details }}<br>
+        {{ product_offer.review }}<br>
+    {% endfor %}
+</body>
+</html>
