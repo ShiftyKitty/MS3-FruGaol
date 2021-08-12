@@ -160,7 +160,7 @@ Different Pages:
 
 ### Skeleton Plane:
 Mobile Wireframes
-![Mobile](wireframes/MS3-Tablet-Wireframes.PNG)
+![Mobile](wireframes/MS3-Mob-Wireframes.PNG)
 
 Desktop Wireframes
 ![Desktop](wireframes/MS3-Desktop-Wireframes.PNG)
