@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h3 class="center-align">Business Sign Up</h3>
+
+
+
+    <div class="row">
+        <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('business_signup') }}">
+            <div class="card-panel">
+                <!-- business name -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="business_name" name="business_name" type="text" class="validate">
+						<label for="business_name">Business Name</label>
+					</div>
+                </div>
+                <!-- Sign Up name -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="sign_up_name" name="sign_up_name" type="text" class="validate">
+						<label for="sign_up_name">Your full name</label>
+					</div>
+                </div>
+                <!-- business contact number -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="business_contact_number" name="business_contact_number" type="number" class="validate">
+						<label for="business_contact_number">Contact Number</label>
+					</div>
+                </div>
+                <!-- Business Address Line 1 -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="business_address_line_1" name="business_address_line_1" type="text" class="validate">
+						<label for="business_address_line_1">Business Address Line 1</label>
+					</div>
+                </div>
+                <!-- Business Address Line 2 -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="business_address_line_2" name="business_address_line_2" type="text" class="validate">
+						<label for="business_address_line_2">Business Address Line 2</label>
+					</div>
+                </div>
+                <!-- Business Address Line 3 -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="business_address_line_3" name="business_address_line_3" type="text" class="validate">
+						<label for="business_address_line_3">Business Address Line 3</label>
+					</div>
+                </div>
+                <!-- eircode -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="eircode" name="eircode" type="text" class="validate">
+						<label for="eircode">Eircode</label>
+					</div>
+                </div>
+                <!-- business email address -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="business_email_address" name="business_email_address" type="email" class="validate">
+						<label for="business_email_address">Email Address</label>
+					</div>
+                </div>
+                <!-- facebook -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="facebook" name="facebook" type="text" class="validate">
+						<label for="facebook">Facebook</label>
+					</div>
+                </div>
+                <!-- instagram -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="instagram" name="instagram" type="text" class="validate">
+						<label for="instagram">Instagram</label>
+					</div>
+                </div>
+                <!-- twitter -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="twitter" name="twitter" type="text" class="validate">
+						<label for="twitter">Twitter</label>
+					</div>
+                </div>
+                <!-- website url -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="website_url" name="website_url" type="text" class="validate">
+						<label for="website_url">Website</label>
+					</div>
+                </div>
+                <!-- logo -->
+                <div class="row">
+					<div class="input-field col s12">
+						<input id="logo" name="logo" type="file" class="validate">
+						<label for="logo"></label>
+					</div>
+                </div>
+
+                <!-- password -->
+                <div class="row">
+                    <div class="input-field col s12">
+						<i class="fas fa-user-lock prefix light-blue-text text-darken-4"></i>
+                        <input id="password" name="password" type="password" class="validate">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <!-- register -->
+                <div class="row">
+                    <button type="submit" class="col s12 btn-large light-blue darken-4 text-shadow">
+                        Register <i class="fas fa-sign-in-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
