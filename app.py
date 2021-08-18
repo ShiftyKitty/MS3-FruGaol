@@ -16,7 +16,7 @@ app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
 
-app.config['MAX_IMAGE_FILESIZE'] = 16 * 1000 * 1000
+app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG"]
 
 mongo = PyMongo(app)
@@ -76,23 +76,20 @@ def business_signup():
             if "filesize" in request.cookies:
 
                 if not allowed_logo_filesize(request.cookies["filesize"]):
-                    flash("Filesize exceeded maximum limit")
-                    return redirect(request.url)
-
-                logo = request.files["logo"]
-
-                if logo.filename == '':
-                    flash("No filename. Please name file and try again")
+                    print("Filesize exceeded maximum limit")
                     return redirect(url_for("business_signup"))
 
-                if allowed_logo(logo.filename):
-                    filename = secure_filename(logo.filename)
-                    mongo.save_file(filename, logo)
-                    print("Logo saved")
-                    return redirect(url_for("business_signup"))
-                else:
-                    flash("That file extension is not permitted")
-                    return redirect(url_for("business_signup"))
+            if logo.filename == '':
+                print("No filename. Please name file and try again")
+                return redirect(url_for("business_signup"))
+
+            if allowed_logo(logo.filename):
+                # filename = secure_filename(logo.filename)
+                mongo.save_file(secure_filename(logo.filename), logo)
+                print("Logo saved")
+            else:
+                flash("That file extension is not permitted")
+                return redirect(url_for("business_signup"))
 
         business_signup = {
             "business_name": request.form.get("business_name"),
@@ -120,6 +117,30 @@ def business_signup():
 
 @app.route("/consumer_signup", methods=["GET", "POST"])
 def consumer_signup():
+    if request.method == "POST":
+
+        existing_email = mongo.db.consumer_users.find_one(
+            {"consumer_email_address": request.form.get("consumer_email_address").lower()})
+
+        if existing_email:
+            flash("Email Address already in use")
+            return redirect(url_for("consumer_signup"))
+
+        consumer_signup = {
+            "consumer_name": request.form.get("consumer_name"),
+            "consumer_address_line_1": request.form.get("consumer_address_line_1"),
+            "consumer_address_line_2": request.form.get("consumer_address_line_2"),
+            "consumer_address_line_3": request.form.get("consumer_address_line_3"),
+            "consumer_contact_number": request.form.get("consumer_contact_number"),
+            "consumer_email_address": request.form.get("consumer_email_address"),
+            "consumer_dob": request.form.get("consumer_dob"),
+            "consumer_password": generate_password_hash(request.form.get("consumer_password"))
+        }
+        mongo.db.consumer_users.insert_one(consumer_signup)
+
+        session["consumer_user"] = request.form.get("consumer_name")
+        flash("Consumer Sign Up Successful")
+
     return render_template("consumer_signup.html")
 
 
