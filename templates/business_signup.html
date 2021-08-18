@@ -6,7 +6,7 @@
 
 
     <div class="row">
-        <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('business_signup') }}">
+        <form class="col s12 m8 offset-m2" method="POST" enctype="multipart/form-data" action="{{ url_for('business_signup') }}">
             <div class="card-panel">
                 <!-- business name -->
                 <div class="row">
@@ -22,6 +22,14 @@
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
 						<input id="sign_up_name" name="sign_up_name" type="text" class="validate">
 						<label for="sign_up_name">Your full name</label>
+					</div>
+                </div>
+				<!-- industry -->
+                <div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<input id="industry" name="industry" type="text" class="validate">
+						<label for="industry">Industry</label>
 					</div>
                 </div>
                 <!-- business contact number -->
@@ -54,14 +62,6 @@
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
 						<input id="business_address_line_3" name="business_address_line_3" type="text" class="validate">
 						<label for="business_address_line_3">Business Address Line 3</label>
-					</div>
-                </div>
-                <!-- eircode -->
-                <div class="row">
-					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="eircode" name="eircode" type="text" class="validate">
-						<label for="eircode">Eircode</label>
 					</div>
                 </div>
                 <!-- business email address -->
@@ -106,9 +106,9 @@
                 </div>
                 <!-- logo -->
                 <div class="row">
-					<div class="input-field col s12">
+					<div class="col s12">
 						<input id="logo" name="logo" type="file" class="validate">
-						<label for="logo"></label>
+						<label for="logo">Add Logo</label>
 					</div>
                 </div>
 

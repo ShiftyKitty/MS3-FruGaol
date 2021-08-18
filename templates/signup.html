@@ -2,15 +2,23 @@
 {% block content %}
 
     <h3 class="center-align">Are you ...</h3>
-
-    <div class="col s8 m8 l8">
-        <a href="{{ url_for('business_signup') }}">Looking for Business?</a>
-    </div>
-    <div class="col s8 m8 l8">
-        <a href="{{ url_for('consumer_signup') }}">Looking for Deals?</a>
-    </div>
-    <div>
-        Already a User? <a href="">Log In</a>
+    
+    <div class="card-panel">
+        <div class="row">
+            <div class="col s8 m8 l8">
+                <a href="{{ url_for('business_signup') }}">Looking for Business?</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s8 m8 l8">
+                <a href="{{ url_for('consumer_signup') }}">Looking for Deals?</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s8 m8 l8">
+                Already a User? <a href="">Log In</a>
+            </div>
+        </div>
     </div>
 
     <!-- <div class="row">
