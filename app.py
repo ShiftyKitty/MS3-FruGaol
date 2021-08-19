@@ -76,11 +76,11 @@ def business_signup():
             if "filesize" in request.cookies:
 
                 if not allowed_logo_filesize(request.cookies["filesize"]):
-                    print("Filesize exceeded maximum limit")
+                    flash("Filesize exceeded maximum limit")
                     return redirect(url_for("business_signup"))
 
             if logo.filename == '':
-                print("No filename. Please name file and try again")
+                flash("No filename. Please name file and try again")
                 return redirect(url_for("business_signup"))
 
             if allowed_logo(logo.filename):
@@ -134,7 +134,7 @@ def consumer_signup():
             "consumer_contact_number": request.form.get("consumer_contact_number"),
             "consumer_email_address": request.form.get("consumer_email_address"),
             "consumer_dob": request.form.get("consumer_dob"),
-            "consumer_password": generate_password_hash(request.form.get("consumer_password"))
+            "password": generate_password_hash(request.form.get("password"))
         }
         mongo.db.consumer_users.insert_one(consumer_signup)
 
@@ -144,9 +144,47 @@ def consumer_signup():
     return render_template("consumer_signup.html")
 
 
-@app.route("/upload_logo", methods=["GET", "POST"])
-def upload_logo():
-    return render_template("upload_logo.html")
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        # # check if email exists in database
+        # existing_email_consumer = mongo.db.consumer_users.find_one(
+        #     {"consumer_email_address": request.form.get("consumer_email_address")})
+                
+        # if existing_email_consumer:
+        #     if check_password_hash(
+        #         existing_email_consumer["password"], request.form.get("password")):
+        #             session["consumer_user"] = request.form.get("consumer_name")
+        #             flash("Welcome, {}".format(request.form.get("consumer_name")))
+        #     else:
+        #         #invalid pw match
+        #         flash("Incorrect Email and/or Password")
+        #         return redirect(url_for("login"))
+
+        # else:
+        #     #email does not exist
+        #     flash("Incorrect Email and/or Password")
+        #     return redirect(url_for("login"))
+
+        existing_email_business = mongo.db.business_users.find_one(
+            {"business_email_address": request.form.get("business_email_address").lower()})
+
+        if existing_email_business:
+            if check_password_hash(
+                existing_email_business["password"], request.form.get("password")):
+                    session["business_user"] = request.form.get("business_name")
+                    flash("Welcome, {}".format(request.form.get("business_email_address")))
+            else:
+                #invalid pw match
+                flash("Incorrect Email and/or Password")
+                return redirect(url_for("login"))
+
+        else:
+            #email does not exist
+            flash("Incorrect Email and/or Password")
+            return redirect(url_for("login"))
+
+    return render_template("login.html")
 
 
 if __name__ == "__main__":

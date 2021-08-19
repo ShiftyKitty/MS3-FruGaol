@@ -12,7 +12,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_name" name="business_name" type="text" class="validate">
+						<input id="business_name" name="business_name" type="text" class="validate" required>
 						<label for="business_name">Business Name</label>
 					</div>
                 </div>
@@ -20,7 +20,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="sign_up_name" name="sign_up_name" type="text" class="validate">
+						<input id="sign_up_name" name="sign_up_name" type="text" class="validate" required>
 						<label for="sign_up_name">Your full name</label>
 					</div>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="industry" name="industry" type="text" class="validate">
+						<input id="industry" name="industry" type="text" class="validate" required>
 						<label for="industry">Industry</label>
 					</div>
                 </div>
@@ -36,7 +36,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_contact_number" name="business_contact_number" type="number" class="validate">
+						<input id="business_contact_number" name="business_contact_number" type="number" class="validate" required>
 						<label for="business_contact_number">Contact Number</label>
 					</div>
                 </div>
@@ -44,7 +44,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_address_line_1" name="business_address_line_1" type="text" class="validate">
+						<input id="business_address_line_1" name="business_address_line_1" type="text" class="validate" required>
 						<label for="business_address_line_1">Business Address Line 1</label>
 					</div>
                 </div>
@@ -52,7 +52,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_address_line_2" name="business_address_line_2" type="text" class="validate">
+						<input id="business_address_line_2" name="business_address_line_2" type="text" class="validate" required>
 						<label for="business_address_line_2">Business Address Line 2</label>
 					</div>
                 </div>
@@ -60,7 +60,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_address_line_3" name="business_address_line_3" type="text" class="validate">
+						<input id="business_address_line_3" name="business_address_line_3" type="text" class="validate" required>
 						<label for="business_address_line_3">Business Address Line 3</label>
 					</div>
                 </div>
@@ -68,7 +68,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_email_address" name="business_email_address" type="email" class="validate">
+						<input id="business_email_address" name="business_email_address" type="email" class="validate" required>
 						<label for="business_email_address">Email Address</label>
 					</div>
                 </div>
@@ -111,12 +111,12 @@
 						<label for="logo">Add Logo</label>
 					</div>
                 </div>
-
                 <!-- password -->
                 <div class="row">
                     <div class="input-field col s12">
 						<i class="fas fa-user-lock prefix light-blue-text text-darken-4"></i>
-                        <input id="password" name="password" type="password" class="validate">
+                        <input id="password" name="password" type="password" minlength="5"
+							maxlength="15" pattern="^[a-zA-Z0-9]{5,15}$" class="validate" required>
                         <label for="password">Password</label>
                     </div>
                 </div>
