@@ -6,11 +6,12 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-if os.path.exists("env.py"):
+if os.path.exists("env.py"):    
     import env
 
 
 app = Flask(__name__)
+
 
 app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
@@ -18,6 +19,7 @@ app.secret_key = os.environ.get("SECRET_KEY")
 
 app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG"]
+
 
 mongo = PyMongo(app)
 
@@ -27,24 +29,24 @@ mongo = PyMongo(app)
 def get_product_offers():
     product_offers = mongo.db.product_offers.find()
     return render_template("offers.html", product_offers=product_offers)
-
+    
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     return render_template("signup.html")
-
+    
 
 def allowed_logo(filename):
     if "." not in filename:
         return False
-
+        
     ext = filename.rsplit(".", 1)[1]
-
+    
     if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
         return True
     else:
         return False
-
+        
 
 def allowed_logo_filesize(filesize):
 
@@ -52,7 +54,7 @@ def allowed_logo_filesize(filesize):
         return True
     else:
         return False
-
+        
 
 @app.route("/business_signup", methods=["GET", "POST"])
 def business_signup():
@@ -62,37 +64,36 @@ def business_signup():
     #     mongo.save_file(logo.filename, logo)
 
     if request.method == "POST":
-
-        existing_email = mongo.db.business_users.find_one(
-            {"business_email_address": request.form.get("business_email_address").lower()})
-
-        if existing_email:
-            flash("Email Address already in use")
-            return redirect(url_for("business_signup"))
-
         if request.files:
             logo = request.files["logo"]
-
+            
             if "filesize" in request.cookies:
-
+                
                 if not allowed_logo_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
                     return redirect(url_for("business_signup"))
-
+       
             if logo.filename == '':
                 flash("No filename. Please name file and try again")
                 return redirect(url_for("business_signup"))
-
+                
             if allowed_logo(logo.filename):
-                # filename = secure_filename(logo.filename)
                 mongo.save_file(secure_filename(logo.filename), logo)
                 print("Logo saved")
             else:
                 flash("That file extension is not permitted")
                 return redirect(url_for("business_signup"))
-
+                
+        # check if business_name already exists in db
+        existing_user = mongo.db.business_users.find_one(
+            {"business_name": request.form.get("business_name").lower()})
+            
+        if existing_user:
+            flash("business_name already exists")
+            return redirect(url_for("business_signup"))
+            
         business_signup = {
-            "business_name": request.form.get("business_name"),
+            "business_name": request.form.get("business_name").lower(),
             "signers_name": request.form.get("sign_up_name"),
             "industry": request.form.get("industry"),
             "business_address_line_1": request.form.get("business_address_line_1"),
@@ -109,82 +110,53 @@ def business_signup():
         }
         mongo.db.business_users.insert_one(business_signup)
 
-        session["business_user"] = request.form.get("business_name")
-        flash("Business Sign Up Successful")
-
+        # put the new user into 'session' cookie
+        session["user"] = request.form.get("business_name").lower()
+        flash("Registration Successful!")
+        return redirect(url_for("profile", business_name=session["user"]))
+        
     return render_template("business_signup.html")
+    
 
-
-@app.route("/consumer_signup", methods=["GET", "POST"])
-def consumer_signup():
-    if request.method == "POST":
-
-        existing_email = mongo.db.consumer_users.find_one(
-            {"consumer_email_address": request.form.get("consumer_email_address").lower()})
-
-        if existing_email:
-            flash("Email Address already in use")
-            return redirect(url_for("consumer_signup"))
-
-        consumer_signup = {
-            "consumer_name": request.form.get("consumer_name"),
-            "consumer_address_line_1": request.form.get("consumer_address_line_1"),
-            "consumer_address_line_2": request.form.get("consumer_address_line_2"),
-            "consumer_address_line_3": request.form.get("consumer_address_line_3"),
-            "consumer_contact_number": request.form.get("consumer_contact_number"),
-            "consumer_email_address": request.form.get("consumer_email_address"),
-            "consumer_dob": request.form.get("consumer_dob"),
-            "password": generate_password_hash(request.form.get("password"))
-        }
-        mongo.db.consumer_users.insert_one(consumer_signup)
-
-        session["consumer_user"] = request.form.get("consumer_name")
-        flash("Consumer Sign Up Successful")
-
-    return render_template("consumer_signup.html")
+# @app.route("/consumer_signup", methods=["GET", "POST"])
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        # # check if email exists in database
-        # existing_email_consumer = mongo.db.consumer_users.find_one(
-        #     {"consumer_email_address": request.form.get("consumer_email_address")})
-                
-        # if existing_email_consumer:
-        #     if check_password_hash(
-        #         existing_email_consumer["password"], request.form.get("password")):
-        #             session["consumer_user"] = request.form.get("consumer_name")
-        #             flash("Welcome, {}".format(request.form.get("consumer_name")))
-        #     else:
-        #         #invalid pw match
-        #         flash("Incorrect Email and/or Password")
-        #         return redirect(url_for("login"))
-
-        # else:
-        #     #email does not exist
-        #     flash("Incorrect Email and/or Password")
-        #     return redirect(url_for("login"))
-
-        existing_email_business = mongo.db.business_users.find_one(
-            {"business_email_address": request.form.get("business_email_address").lower()})
-
-        if existing_email_business:
+        # check if business_name exists in db
+        existing_user = mongo.db.business_users.find_one(
+            {"business_name": request.form.get("business_name").lower()})
+            
+        if existing_user:
+            # ensure hashed password matches user input
             if check_password_hash(
-                existing_email_business["password"], request.form.get("password")):
-                    session["business_user"] = request.form.get("business_name")
-                    flash("Welcome, {}".format(request.form.get("business_email_address")))
+                existing_user["password"], request.form.get("password")):
+                    session["user"] = request.form.get("business_name").lower()
+                    flash("Welcome, {}".format(
+                        request.form.get("business_name")))
+                    return redirect(url_for(
+                        "profile", business_name=session["user"]))
+                
             else:
-                #invalid pw match
-                flash("Incorrect Email and/or Password")
+                # invalid password match
+                flash("Incorrect business_name and/or Password")
                 return redirect(url_for("login"))
-
+                
         else:
-            #email does not exist
-            flash("Incorrect Email and/or Password")
+            # business_name doesn't exist
+            flash("Incorrect business_name and/or Password")
             return redirect(url_for("login"))
-
+            
     return render_template("login.html")
+
+
+@app.route("/profile/<business_name>", methods=["GET", "POST"])
+def profile(business_name):
+    # grab the session user's business_name from db
+    business_name = mongo.db.business_users.find_one(
+        {"business_name": session["user"]})["business_name"]
+    return render_template("profile.html", business_name=business_name)
 
 
 if __name__ == "__main__":
