@@ -156,7 +156,19 @@ def profile(business_name):
     # grab the session user's business_name from db
     business_name = mongo.db.business_users.find_one(
         {"business_name": session["user"]})["business_name"]
-    return render_template("profile.html", business_name=business_name)
+
+    if session["user"]:
+        return render_template("profile.html", business_name=business_name)
+    
+    return redirect(url_for("login"))
+
+
+@app.route("/logout")
+def logout():
+    # remove user from session cookies
+    flash("You have been logged out")
+    session.pop("user")
+    return redirect(url_for("login"))
 
 
 if __name__ == "__main__":
