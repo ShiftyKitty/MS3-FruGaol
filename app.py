@@ -25,10 +25,10 @@ mongo = PyMongo(app)
 
 
 @app.route("/")
-@app.route("/get_product_offers")
-def get_product_offers():
-    product_offers = mongo.db.product_offers.find()
-    return render_template("offers.html", product_offers=product_offers)
+@app.route("/offers")
+def offers():
+    offers = mongo.db.offers.find()
+    return render_template("offers.html", offers=offers)
     
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -157,6 +157,9 @@ def profile(business_name):
     business_name = mongo.db.business_users.find_one(
         {"business_name": session["user"]})["business_name"]
 
+    business_users = mongo.db.business_users.find()
+    return render_template("profile.html", business_users=business_users)
+
     if session["user"]:
         return render_template("profile.html", business_name=business_name)
     
@@ -169,6 +172,44 @@ def logout():
     flash("You have been logged out")
     session.pop("user")
     return redirect(url_for("login"))
+
+
+@app.route("/create_offer", methods=["GET", "POST"])
+def create_offer():
+    if request.method == "POST":
+        if request.files:
+            offer_img = request.files["offer_img"]
+            
+            if "filesize" in request.cookies:
+                
+                if not allowed_logo_filesize(request.cookies["filesize"]):
+                    flash("Filesize exceeded maximum limit")
+                    return redirect(url_for("create_offer"))
+       
+            if offer_img.filename == '':
+                flash("No filename. Please name file and try again")
+                return redirect(url_for("create_offer"))
+                
+            if allowed_logo(offer_img.filename):
+                mongo.save_file(secure_filename(offer_img.filename), offer_img)
+                print("Image saved")
+            else:
+                flash("That file extension is not permitted")
+                return redirect(url_for("create_offer"))
+
+        offer = {
+            "offer_name": request.form.get("offer_name"),
+            "offer_type": request.form.get("offer_type"),
+            "offer_description": request.form.get("offer_description"),
+            "offer_price": request.form.get("offer_price"),
+            "offer_img": offer_img.filename,
+            "created_by": session["user"]
+        }
+        mongo.db.offers.insert_one(offer)
+        flash("Offer Successfully Created")
+        return redirect(url_for("create_offer"))
+
+    return render_template("create_offer.html")
 
 
 if __name__ == "__main__":
