@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="center-align">Edit your Offer!</h3>
+
+<div class="row card-panel grey lighten-5">
+    <form class="col s12" method="POST" enctype="multipart/form-data" action="{{ url_for('edit_offer', offer_id=offer._id) }}">
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fas fa-pencil-alt prefix light-blue-text text-darken-4"></i>
+                <input id="offer_name" name="offer_name" minlength="5" maxlength="50"
+                    type="text" value="{{ offer.offer_name }}" class="validate" required>
+                <label for="offer_name">Offer Name</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fas fa-folder-open prefix light-blue-text text-darken-4"></i>
+                <select id="offer_type" name="offer_type" class="validate" required>
+                    <option value="" disabled selected>Product / Service</option>
+                    <option value="product">Product</option>
+                    <option value="service">Service</option>
+                </select>
+                <label for="offer_type">Product / Service</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+                <textarea id="offer_description" name="offer_description" minlength="5"
+                    maxlength="200" value="{{- offer.offer_description -}}" class="materialize-textarea validate" required></textarea>
+                <label for="offer_description">Offer Description</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+                <input id="offer_price" name="offer_price" type="number" class="validate" value="{{- offer.offer_price -}}" required>
+                <label for="offer_price">Price</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <input id="offer_img" name="offer_img" type="file" value="{{ offer.offer_img }}" class="validate">
+				<label for="offer_img">Add Image</label>
+            </div>
+        </div>
+        <!-- submit button -->
+        <div class="row">
+            <div class="col s12 center-align">
+                <!-- cancel button -->
+                <a href="{{ url_for('offers') }}" class="btn-large red">
+                    Cancel <i class="fas fa-times-circle right"></i>
+                </a>
+                <button type="submit" class="btn-large light-blue darken-1 text-shadow">
+                    Edit Offer <i class="fas fa-edit right"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

@@ -209,6 +209,46 @@ def create_offer():
     return render_template("create_offer.html")
 
 
+@app.route("/edit_offer/<offer_id>", methods=["GET", "POST"])
+def edit_offer(offer_id):
+     if request.method == "POST":
+        # business offer img saved to mongodb
+        if request.files:
+            offer_img = request.files["offer_img"]
+            
+            if "filesize" in request.cookies:
+                
+                if not allowed_img_filesize(request.cookies["filesize"]):
+                    flash("Filesize exceeded maximum limit")
+                    return redirect(url_for("create_offer"))
+       
+            if offer_img.filename == '':
+                flash("No filename. Please name file and try again")
+                return redirect(url_for("create_offer"))
+                
+            if allowed_img(offer_img.filename):
+                mongo.save_file(secure_filename(offer_img.filename), offer_img)
+                print("Offer Image saved")
+            else:
+                flash("That file extension is not permitted")
+                return redirect(url_for("create_offer"))
+
+        edit = {
+            "offer_name": request.form.get("offer_name"),
+            "offer_type": request.form.get("offer_type"),
+            "offer_description": request.form.get("offer_description"),
+            "offer_price": request.form.get("offer_price"),
+            "offer_img": offer_img.filename,
+            "created_by": session["user"]
+        }
+
+        mongo.db.offers.update({"_id": ObjectId(offer_id)}, edit)
+        flash("Offer Successfully Edited")
+
+    offer = mongo.db.offers.find_one({"_id": ObjectId(offer_id)})
+    return render_template("edit_offer.html", offer=offer)
+
+
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
