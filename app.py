@@ -249,6 +249,13 @@ def edit_offer(offer_id):
     return render_template("edit_offer.html", offer=offer)
 
 
+@app.route("/offer_finish/<offer_id>")
+def offer_finish(offer_id):
+    mongo.db.tasks.remove({"_id": ObjectId(offer_id)})
+    flash("Offer Finished")
+    return redirect(url_for("profile"))
+
+
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),

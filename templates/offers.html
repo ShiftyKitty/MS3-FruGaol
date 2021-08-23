@@ -12,4 +12,9 @@
         {{ offer.review }}<br>
     {% endfor %}
 
+    {% if session.user|lower == offer.created_by|lower %}
+    {% endif %}
+
+
+
 {% endblock %}
