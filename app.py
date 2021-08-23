@@ -36,7 +36,7 @@ def signup():
     return render_template("signup.html")
     
 
-def allowed_logo(filename):
+def allowed_img(filename):
     if "." not in filename:
         return False
         
@@ -48,7 +48,7 @@ def allowed_logo(filename):
         return False
         
 
-def allowed_logo_filesize(filesize):
+def allowed_img_filesize(filesize):
 
     if int(filesize) <= app.config["MAX_IMAGE_FILESIZE"]:
         return True
@@ -58,18 +58,14 @@ def allowed_logo_filesize(filesize):
 
 @app.route("/business_signup", methods=["GET", "POST"])
 def business_signup():
-    # business logo saved to mongodb
-    # if "logo" in request.files:
-    #     logo = request.files["logo"]
-    #     mongo.save_file(logo.filename, logo)
-
     if request.method == "POST":
+        # business logo saved to mongodb
         if request.files:
             logo = request.files["logo"]
             
             if "filesize" in request.cookies:
                 
-                if not allowed_logo_filesize(request.cookies["filesize"]):
+                if not allowed_img_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
                     return redirect(url_for("business_signup"))
        
@@ -77,7 +73,7 @@ def business_signup():
                 flash("No filename. Please name file and try again")
                 return redirect(url_for("business_signup"))
                 
-            if allowed_logo(logo.filename):
+            if allowed_img(logo.filename):
                 mongo.save_file(secure_filename(logo.filename), logo)
                 print("Logo saved")
             else:
@@ -114,9 +110,8 @@ def business_signup():
         session["user"] = request.form.get("business_name").lower()
         flash("Registration Successful!")
         return redirect(url_for("profile", business_name=session["user"]))
-        
+
     return render_template("business_signup.html")
-    
 
 # @app.route("/consumer_signup", methods=["GET", "POST"])
 
@@ -177,12 +172,13 @@ def logout():
 @app.route("/create_offer", methods=["GET", "POST"])
 def create_offer():
     if request.method == "POST":
+        # business offer img saved to mongodb
         if request.files:
             offer_img = request.files["offer_img"]
             
             if "filesize" in request.cookies:
                 
-                if not allowed_logo_filesize(request.cookies["filesize"]):
+                if not allowed_img_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
                     return redirect(url_for("create_offer"))
        
@@ -190,9 +186,9 @@ def create_offer():
                 flash("No filename. Please name file and try again")
                 return redirect(url_for("create_offer"))
                 
-            if allowed_logo(offer_img.filename):
+            if allowed_img(offer_img.filename):
                 mongo.save_file(secure_filename(offer_img.filename), offer_img)
-                print("Image saved")
+                print("Offer Image saved")
             else:
                 flash("That file extension is not permitted")
                 return redirect(url_for("create_offer"))
@@ -205,6 +201,7 @@ def create_offer():
             "offer_img": offer_img.filename,
             "created_by": session["user"]
         }
+
         mongo.db.offers.insert_one(offer)
         flash("Offer Successfully Created")
         return redirect(url_for("create_offer"))

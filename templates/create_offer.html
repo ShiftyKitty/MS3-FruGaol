@@ -4,7 +4,7 @@
 <h3 class="center-align">Create your Offer!</h3>
 
 <div class="row card-panel grey lighten-5">
-    <form class="col s12" method="POST" action="{{ url_for('create_offer') }}">
+    <form class="col s12" method="POST" enctype="multipart/form-data" action="{{ url_for('create_offer') }}">
         <div class="row">
             <div class="input-field col s12">
                 <i class="fas fa-pencil-alt prefix light-blue-text text-darken-4"></i>
@@ -42,7 +42,7 @@
         <div class="row">
             <div class="col s12">
                 <input id="offer_img" name="offer_img" type="file" class="validate">
-                <label for="offer_img">Add Image</label>
+				<label for="offer_img">Add Image</label>
             </div>
         </div>
         <!-- submit button -->
