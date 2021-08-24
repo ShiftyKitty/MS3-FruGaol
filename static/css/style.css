@@ -1,3 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&family=Righteous&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 0;
+}
+
+/* main {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 0;
+} */
+
 .flashes h4 {
     line-height: 2;
 }
+
+.social-media div i {
+    border: 1px solid black;
+    border-radius: 50%;
+    padding: 10%;
+}
+

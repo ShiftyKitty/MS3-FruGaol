@@ -1,35 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <div class="row">
-        <div class="col s12 m8 offset-m2">
-            <div class="card-panel">
-                <h3 class="center-align light-blue-text text-darken-4">
-                    {{ business_name }}'s Profile
-                </h3>
-                <div class="">
-                
-                
-                {% for business_user in business_users %}
-                    {% if session.user|lower == business_user.business_name|lower %}
-                        {{ business_user.signers_name }}<br>
-                        {{ business_user.industry }}<br>
-                        {{ business_user.business_address_line_1 }}<br>
-                        {{ business_user.business_address_line_2 }}<br>
-                        {{ business_user.business_address_line_3 }}<br>
-                        {{ business_user.business_contact_number }}<br>
-                        {{ business_user.business_email_address }}<br>
-                        {{ business_user.facebook }}<br>
-                        {{ business_user.instagram }}<br>
-                        {{ business_user.twitter }}<br>
-                        {{ business_user.website_url }}<br>
-                        {{ business_user.logo_img }}<br>
-                    {% endif %}
-                {% endfor %}
+    {% for business_user in business_users %}
+        {% if session.user|lower == business_user.business_name|lower %}
+            <div class="row card-panel">
+                <div class="col s12 m4 l4 logo-container card-panel">
+                    <img src="{{ url_for('file', filename=business_user['logo_img'] )}}">
+                </div>
+                <div class="col s12 m8 l8 business-details card-panel">
+                    <h3>{{ business_name }}</h3>
+                    <div class="industry">
+                        <blockquote>{{ business_user.industry }}</blockquote>
+                    </div>
+                    <div class="address">
+                        <p>Address Line 1: {{ business_user.business_address_line_1 }}</p>
+                        <p>Address Line 2: {{ business_user.business_address_line_2 }}</p>
+                        <p>Address Line 3: {{ business_user.business_address_line_3 }}</p>
+                    </div>
+                </div>
+                <div class="col s12 m8 l8 contact-info card-panel">
+                    <h4>Contact Info</h4>
+                    <div class="col m6">
+                        <div class="signers-name">Contact Name: {{ business_user.signers_name }}</div>
+                        <div class="cont-number">{{ business_user.business_contact_number }}</div>
+                        <div class="email-address">{{ business_user.business_email_address }}</div>
+                        <div class="website"><a target="_blank" href="{{ business_user.website_url }}">My Website</a></div>
+                    </div>
+                    <div class="col m6 social-media">
+                        <div class="col s4 facebook"><a target="_blank" href="{{ business_user.facebook }}"><i class="fab fa-facebook-f"></i></a></div>
+                        <div class="col s4 instagram"><a target="_blank" href="{{ business_user.instagram }}"><i class="fab fa-instagram"></i></a></div>
+                        <div class="col s4 twitter"><a target="_blank" href="{{ business_user.twitter }}"><i class="fab fa-twitter"></i></a></div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col s12 prodServ card-panel">
+                    <h4 class="center-align">Products & Services</h4>
+                    <p>Product/Service 1</p>
+                    <p>Product/Service 2</p>
+                    <p>Product/Service 3</p>
+
                 </div>
             </div>
-        </form>
-    </div>
+
+            <div class="row">
+                <div class="col s12 reviews card-panel">
+                    <h4 class="center-align">Reviews & Testimonials</h4>
+
+                </div>
+
+        {% endif %}
+    {% endfor %}
 
 	
 

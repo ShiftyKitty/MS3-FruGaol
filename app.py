@@ -113,6 +113,11 @@ def business_signup():
 
     return render_template("business_signup.html")
 
+
+@app.route("/file/<filename>")
+def file(filename):
+    return mongo.send_file(filename)
+
 # @app.route("/consumer_signup", methods=["GET", "POST"])
 
 
