@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <div class="card-panel">
+                <h3 class="center-align light-blue-text text-darken-4">
+                    {{ offer.offer_name }}<br>
+                </h3>
+                <div class="">
+                
+                        {{ offer.offer_name }}<br>
+                        {{ offer.offer_type }}<br>
+                        {{ offer.offer_description }}<br>
+                        {{ offer.old_price }}<br>
+                        {{ offer.offer_price }}<br>
+                        {{ offer.offer_img }}<br>
+                        {{ offer.created_by }}<br>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+	
+
+{% endblock %}

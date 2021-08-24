@@ -125,13 +125,10 @@ def login():
             
         if existing_user:
             # ensure hashed password matches user input
-            if check_password_hash(
-                existing_user["password"], request.form.get("password")):
-                    session["user"] = request.form.get("business_name").lower()
-                    flash("Welcome, {}".format(
-                        request.form.get("business_name")))
-                    return redirect(url_for(
-                        "profile", business_name=session["user"]))
+            if check_password_hash(existing_user["password"], request.form.get("password")):
+                session["user"] = request.form.get("business_name").lower()
+                flash("Welcome, {}".format(request.form.get("business_name")))
+                return redirect(url_for("offers", business_name=session["user"]))
                 
             else:
                 # invalid password match
@@ -151,13 +148,12 @@ def profile(business_name):
     # grab the session user's business_name from db
     business_name = mongo.db.business_users.find_one(
         {"business_name": session["user"]})["business_name"]
-
+    
     business_users = mongo.db.business_users.find()
-    return render_template("profile.html", business_users=business_users)
 
     if session["user"]:
-        return render_template("profile.html", business_name=business_name)
-    
+        return render_template("profile.html", business_name=business_name, business_users=business_users)
+
     return redirect(url_for("login"))
 
 
@@ -197,6 +193,7 @@ def create_offer():
             "offer_name": request.form.get("offer_name"),
             "offer_type": request.form.get("offer_type"),
             "offer_description": request.form.get("offer_description"),
+            "old_price": request.form.get("old_price"),
             "offer_price": request.form.get("offer_price"),
             "offer_img": offer_img.filename,
             "created_by": session["user"]
@@ -204,14 +201,37 @@ def create_offer():
 
         mongo.db.offers.insert_one(offer)
         flash("Offer Successfully Created")
-        return redirect(url_for("create_offer"))
+        return redirect(url_for("offer.html"))
 
     return render_template("create_offer.html")
 
 
+@app.route("/offer/<offer_id>", methods=["GET", "POST"])
+def offer(offer_id):
+    # grab the session user's business_name from db    
+    offers = mongo.db.offers.find()    
+    offer = mongo.db.offers.find_one({"_id": ObjectId(offer_id)})
+
+    return render_template("offer.html", offer=offer, offers=offers)
+
+
+@app.route("/my_offers/<business_name>", methods=["GET", "POST"])
+def my_offers(business_name):
+    # grab the session user's business_name from db
+    business_name = mongo.db.business_users.find_one(
+        {"business_name": session["user"]})["business_name"]
+    
+    offers = mongo.db.offers.find()
+
+    if session["user"]:
+        return render_template("my_offers.html", business_name=business_name, offers=offers)
+    
+    return render_template("my_offers.html", offers=offers, business_name=business_name)
+
+
 @app.route("/edit_offer/<offer_id>", methods=["GET", "POST"])
 def edit_offer(offer_id):
-     if request.method == "POST":
+    if request.method == "POST":
         # business offer img saved to mongodb
         if request.files:
             offer_img = request.files["offer_img"]
@@ -237,6 +257,7 @@ def edit_offer(offer_id):
             "offer_name": request.form.get("offer_name"),
             "offer_type": request.form.get("offer_type"),
             "offer_description": request.form.get("offer_description"),
+            "old_price": request.form.get("old_price"),
             "offer_price": request.form.get("offer_price"),
             "offer_img": offer_img.filename,
             "created_by": session["user"]

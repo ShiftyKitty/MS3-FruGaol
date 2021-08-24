@@ -35,14 +35,21 @@
         <div class="row">
             <div class="input-field col s12">
                 <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+                <input id="old_price" name="old_price" type="number" class="validate" required>
+                <label for="old_price">Old Price</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
                 <input id="offer_price" name="offer_price" type="number" class="validate" value="{{- offer.offer_price -}}" required>
-                <label for="offer_price">Price</label>
+                <label for="offer_price">Current Price</label>
             </div>
         </div>
         <div class="row">
             <div class="col s12">
                 <input id="offer_img" name="offer_img" type="file" value="{{ offer.offer_img }}" class="validate">
-				<label for="offer_img">Add Image</label>
+				<label for="offer_img">Update Image</label>
             </div>
         </div>
         <!-- submit button -->

@@ -4,16 +4,17 @@
     
 
     {% for offer in offers %}
+        <a href="{{ url_for('offer', offer_id=offer._id) }}">Full Offer</a>
         {{ offer.offer_name }}<br>
         {{ offer.offer_description }}<br>
+        {{ offer.old_price }}<br>
         {{ offer.offer_price }}<br>
         {{ offer.offer_img }}<br>
         {{ offer.business_details }}<br>
         {{ offer.review }}<br>
     {% endfor %}
 
-    {% if session.user|lower == offer.created_by|lower %}
-    {% endif %}
+   
 
 
 

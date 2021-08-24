@@ -8,19 +8,23 @@
                     {{ business_name }}'s Profile
                 </h3>
                 <div class="">
+                
+                
                 {% for business_user in business_users %}
-                    {{ business_user.signers_name }}<br>
-                    {{ business_user.industry }}<br>
-                    {{ business_user.business_address_line_1 }}<br>
-                    {{ business_user.business_address_line_2 }}<br>
-                    {{ business_user.business_address_line_3 }}<br>
-                    {{ business_user.business_contact_number }}<br>
-                    {{ business_user.business_email_address }}<br>
-                    {{ business_user.facebook }}<br>
-                    {{ business_user.instagram }}<br>
-                    {{ business_user.twitter }}<br>
-                    {{ business_user.website_url }}<br>
-                    {{ business_user.logo_img }}<br>
+                    {% if session.user|lower == business_user.business_name|lower %}
+                        {{ business_user.signers_name }}<br>
+                        {{ business_user.industry }}<br>
+                        {{ business_user.business_address_line_1 }}<br>
+                        {{ business_user.business_address_line_2 }}<br>
+                        {{ business_user.business_address_line_3 }}<br>
+                        {{ business_user.business_contact_number }}<br>
+                        {{ business_user.business_email_address }}<br>
+                        {{ business_user.facebook }}<br>
+                        {{ business_user.instagram }}<br>
+                        {{ business_user.twitter }}<br>
+                        {{ business_user.website_url }}<br>
+                        {{ business_user.logo_img }}<br>
+                    {% endif %}
                 {% endfor %}
                 </div>
             </div>
