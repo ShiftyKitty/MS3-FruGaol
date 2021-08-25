@@ -34,3 +34,13 @@ body {
     padding: 10%;
 }
 
+.logo-container img {
+    max-height: 100%;
+    max-width: 100%;
+
+}
+
+.business-details {
+    padding: 0;
+
+}

@@ -22,15 +22,19 @@
                 <ul class="right hide-on-med-and-down">
                     <li><a href="{{ url_for('offers') }}">Home</a></li>
                     {% if session.user %}
-                        <li><a href="{{ url_for('profile', business_name=session['user']) }}">Profile</a></li>
+                        <li><a href="{{ url_for('profile', business_name=session['user'])  }}">Profile</a></li>
                         <li><a href="{{ url_for('my_offers', business_name=session['user']) }}">My Offers</a></li>
                         <li><a href="{{ url_for('create_offer') }}">Create Offer</a></li>
                         <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                    {% elif session.consumer %}
+                        <li><a href="{{ url_for('consumer_profile', consumer_email_address=session['consumer']) }}">Profile</a></li>
+                        <li><a href="{{ url_for('consumer_logout') }}">Log Out</a></li>
                     {% else %}
                         <li><a href="{{ url_for('login') }}">Log In</a></li>
                         <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
                     {% endif %}
-                   
+                    
+                    
                 </ul>
             </div>
         </nav>

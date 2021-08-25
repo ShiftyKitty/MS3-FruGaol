@@ -114,6 +114,59 @@ def business_signup():
     return render_template("business_signup.html")
 
 
+@app.route("/consumer_signup", methods=["GET", "POST"])
+def consumer_signup():
+    if request.method == "POST":
+        # profile pic saved to mongodb
+        if request.files:
+            profile_pic = request.files["profile_pic"]
+            
+            if "filesize" in request.cookies:
+                
+                if not allowed_img_filesize(request.cookies["filesize"]):
+                    flash("Filesize exceeded maximum limit")
+                    return redirect(url_for("consumer_signup"))
+       
+            if profile_pic.filename == '':
+                flash("No filename. Please name file and try again")
+                return redirect(url_for("consumer_signup"))
+                
+            if allowed_img(profile_pic.filename):
+                mongo.save_file(secure_filename(profile_pic.filename), profile_pic)
+                print("Profile Pic saved")
+            else:
+                flash("That file extension is not permitted")
+                return redirect(url_for("consumer_signup"))
+                
+        # check if existing_consumer already exists in db
+        existing_consumer = mongo.db.business_users.find_one(
+            {"consumer_email_address": request.form.get("consumer_email_address").lower()})
+            
+        if existing_consumer:
+            flash("Consumer email already exists. Please try again")
+            return redirect(url_for("consumer_signup"))
+            
+        consumer_user = {
+            "consumer_name": request.form.get("consumer_name").lower(),
+            "consumer_address_line_1": request.form.get("consumer_address_line_1"),
+            "consumer_address_line_2": request.form.get("consumer_address_line_2"),
+            "consumer_address_line_3": request.form.get("consumer_address_line_3"),
+            "consumer_contact_number": request.form.get("consumer_contact_number"),
+            "consumer_email_address": request.form.get("consumer_email_address"),
+            "consumer_dob": request.form.get("consumer_email_address"),
+            "profile_pic": profile_pic.filename,
+            "consumer_password": generate_password_hash(request.form.get("consumer_password"))
+        }
+        mongo.db.consumer_users.insert_one(consumer_user)
+
+        # put the new user into 'session' cookie
+        session["consumer"] = request.form.get("consumer_email_address").lower(), 
+        flash("Registration Successful!")
+        return redirect(url_for("consumer_profile", consumer_email_address=session["consumer"]))
+
+    return render_template("consumer_signup.html")
+
+
 @app.route("/file/<filename>")
 def file(filename):
     return mongo.send_file(filename)
@@ -144,11 +197,58 @@ def login():
             # business_name doesn't exist
             flash("Incorrect business_name and/or Password")
             return redirect(url_for("login"))
+
+        # consumer login
+        existing_consumer = mongo.db.consumer_users.find_one(
+            {"consumer_email_address": request.form.get("consumer_email_address").lower()})
+            
+        if existing_consumer:
+            # ensure hashed password matches user input
+            if check_password_hash(existing_user["consumer_password"], request.form.get("consumer_password")):
+                session["consumer"] = request.form.get("consumer_email_address").lower()
+                return redirect(url_for("offers", consumer_email_address=session["consumer"]))
+                
+            else:
+                # invalid password match
+                flash("Incorrect Email and/or Password")
+                return redirect(url_for("login"))
+                
+        else:
+            # business_name doesn't exist
+            flash("Incorrect Email and/or Password")
+            return redirect(url_for("login"))
             
     return render_template("login.html")
 
 
-@app.route("/profile/<business_name>", methods=["GET", "POST"])
+@app.route("/consumer_login", methods=["GET", "POST"])
+def consumer_login():
+    if request.method == "POST":
+
+        # consumer login
+        existing_consumer = mongo.db.consumer_users.find_one(
+            {"consumer_email_address": request.form.get("consumer_email_address").lower()})
+            
+        if existing_consumer:
+            # ensure hashed password matches user input
+            if check_password_hash(existing_consumer["consumer_password"], request.form.get("consumer_password")):
+                session["consumer"] = request.form.get("consumer_email_address").lower()
+                return redirect(url_for("offers", consumer_email_address=session["consumer"]))
+                
+            else:
+                # invalid password match
+                flash("Incorrect Email and/or Password")
+                return redirect(url_for("consumer_login"))
+                
+        else:
+            # business_name doesn't exist
+            flash("Incorrect Email and/or Password")
+            return redirect(url_for("consumer_login"))
+            
+    return render_template("login.html")
+
+
+@app.route("/profile/<business_name>/", methods=["GET", "POST"])
 def profile(business_name):
     # grab the session user's business_name from db
     business_name = mongo.db.business_users.find_one(
@@ -158,7 +258,21 @@ def profile(business_name):
 
     if session["user"]:
         return render_template("profile.html", business_name=business_name, business_users=business_users)
+    
+    return redirect(url_for("login"))
 
+
+@app.route("/consumer_profile/<consumer_email_address>", methods=["GET", "POST"])
+def consumer_profile(consumer_email_address):
+    # consumer profile deetz
+    consumer_email_address = mongo.db.consumer_users.find_one(
+        {"consumer_email_address": session["consumer"]})
+
+    consumer_users = mongo.db.consumer_users.find()
+
+    if session["consumer"]:
+        return render_template("consumer_profile.html", consumer_email_address=consumer_email_address, consumer_users=consumer_users)
+    
     return redirect(url_for("login"))
 
 
@@ -167,6 +281,16 @@ def logout():
     # remove user from session cookies
     flash("You have been logged out")
     session.pop("user")
+
+    return redirect(url_for("login"))
+
+
+@app.route("/consumer_logout")
+def consumer_logout():
+    # remove user from session cookies
+    flash("You have been logged out")
+    session.pop("consumer")
+
     return redirect(url_for("login"))
 
 
