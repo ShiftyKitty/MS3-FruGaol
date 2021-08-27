@@ -276,6 +276,17 @@ def consumer_profile(consumer_email_address):
     return redirect(url_for("login"))
 
 
+@app.route("/business_profile/<business_name>", methods=["GET", "POST"])
+def business_profile(business_name):
+    # grab the business info for customers from db
+    business_users = mongo.db.business_users.find() 
+
+    business_name = mongo.db.business_users.find_one(
+        {"business_name": business_name})["business_name"]
+    
+    return render_template("business_profile.html", business_name=business_name, business_users=business_users)
+    
+    
 @app.route("/logout")
 def logout():
     # remove user from session cookies
@@ -337,11 +348,12 @@ def create_offer():
 
 @app.route("/offer/<offer_id>", methods=["GET", "POST"])
 def offer(offer_id):
-    # grab the session user's business_name from db    
+    # grab the session user's business_name from db
+    
     offers = mongo.db.offers.find()    
     offer = mongo.db.offers.find_one({"_id": ObjectId(offer_id)})
 
-    return render_template("offer.html", offer=offer, offers=offers)
+    return render_template("offer.html", offer=offer, offers=offers,)
 
 
 @app.route("/my_offers/<business_name>", methods=["GET", "POST"])
