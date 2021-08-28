@@ -48,7 +48,7 @@
             <div class="offer-reviews card-panel">
                 <h5>Reviews</h5>
             </div>
-            <form class="col s12" method="POST" enctype="multipart/form-data" action="">
+            <form class="col s12" method="POST" enctype="multipart/form-data" action="{{ url_for('create_review', offer_id=offer._id) }}">
 
                 <div class="star-widget">
                     <input type="radio" name="rate" id="rate-5" value="5" required>

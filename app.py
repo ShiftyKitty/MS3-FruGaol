@@ -139,7 +139,7 @@ def consumer_signup():
                 return redirect(url_for("consumer_signup"))
                 
         # check if existing_consumer already exists in db
-        existing_consumer = mongo.db.business_users.find_one(
+        existing_consumer = mongo.db.consumer_users.find_one(
             {"consumer_email_address": request.form.get("consumer_email_address").lower()})
             
         if existing_consumer:
@@ -298,7 +298,7 @@ def logout():
 
 @app.route("/consumer_logout")
 def consumer_logout():
-    # remove user from session cookies
+    # remove consumer from session cookies
     flash("You have been logged out")
     session.pop("consumer")
 
@@ -416,6 +416,26 @@ def offer_finish(offer_id):
     mongo.db.tasks.remove({"_id": ObjectId(offer_id)})
     flash("Offer Finished")
     return redirect(url_for("profile"))
+
+
+@app.route("/create_review/<offer_id>", methods=["GET", "POST"])
+def create_review(offer_id):
+    if request.method == "POST":
+        # business offer img saved to mongodb
+        offer = mongo.db.offers.find_one({"_id": ObjectId(offer_id)})
+
+        review = {
+            "created_by": session["consumer"],
+            "offer_id": offer_id,
+            "rate": request.form.get("rate"),
+            "consumer_review": request.form.get("consumer_review")
+        }
+
+        mongo.db.reviews.insert_one(review)
+        flash("Review Submitted")
+        return redirect(url_for("offer", offer=offer, offer_id=offer_id))
+
+    return render_template("offer.html")
 
 
 if __name__ == "__main__":
