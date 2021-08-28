@@ -224,7 +224,6 @@ def login():
 @app.route("/consumer_login", methods=["GET", "POST"])
 def consumer_login():
     if request.method == "POST":
-
         # consumer login
         existing_consumer = mongo.db.consumer_users.find_one(
             {"consumer_email_address": request.form.get("consumer_email_address").lower()})
@@ -352,8 +351,9 @@ def offer(offer_id):
     
     offers = mongo.db.offers.find()    
     offer = mongo.db.offers.find_one({"_id": ObjectId(offer_id)})
+    reviews = mongo.db.reviews.find() 
 
-    return render_template("offer.html", offer=offer, offers=offers,)
+    return render_template("offer.html", offer=offer, offers=offers, reviews=reviews)
 
 
 @app.route("/my_offers/<business_name>", methods=["GET", "POST"])
@@ -424,16 +424,18 @@ def create_review(offer_id):
         # business offer img saved to mongodb
         offer = mongo.db.offers.find_one({"_id": ObjectId(offer_id)})
 
-        review = {
+        reviews = mongo.db.reviews.find()
+
+        customer_review = {
             "created_by": session["consumer"],
             "offer_id": offer_id,
             "rate": request.form.get("rate"),
             "consumer_review": request.form.get("consumer_review")
         }
 
-        mongo.db.reviews.insert_one(review)
+        mongo.db.reviews.insert_one(customer_review)
         flash("Review Submitted")
-        return redirect(url_for("offer", offer=offer, offer_id=offer_id))
+        return redirect(url_for("offer", offer=offer, offer_id=offer_id, reviews=reviews))
 
     return render_template("offer.html")
 

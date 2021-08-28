@@ -48,7 +48,7 @@
             <div class="offer-reviews card-panel">
                 <h5>Reviews</h5>
             </div>
-            <form class="col s12" method="POST" enctype="multipart/form-data" action="{{ url_for('create_review', offer_id=offer._id) }}">
+            <form class="col s12" method="POST" enctype="multipart/form-data" action="{{ url_for('create_review', offer_id=offer._id, reviews=reviews) }}">
 
                 <div class="star-widget">
                     <input type="radio" name="rate" id="rate-5" value="5" required>
@@ -64,8 +64,8 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                      <textarea id="consumer_review" name="consumer_review" class="materialize-textarea" data-length="200"></textarea>
-                      <label for="consumer_review">Your Review</label>
+                    <textarea id="consumer_review" name="consumer_review" class="materialize-textarea" data-length="200"></textarea>
+                    <label for="consumer_review">Your Review</label>
                     </div>
                 </div>
                 <div class="row">
@@ -76,9 +76,18 @@
                     </div>
                 </div>
             </form>
-
-                </div>
-            </div>
+            {% for review in reviews %}
+                {% if offer._id == review.offer_id %}
+                    <div class="row">
+                        <div class="col s12 center-align card-panel">
+                        {{ review.created_by }} <br>
+                        {{ review.offer_id }} <br>
+                        {{ review.rate }} <br>
+                        {{ review.consumer_review }} <br>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
 
