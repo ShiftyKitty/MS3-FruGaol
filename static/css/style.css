@@ -49,3 +49,23 @@ body {
 
 /* star widget codingnepalweb */
 
+.star-widget label{
+    font-size: 40px;
+    color: #444;
+    padding: 10px;
+    float: right;
+    transition: all 0.2s ease;
+  }
+
+input:not(:checked) ~ label:hover,
+input:not(:checked) ~ label:hover ~ label{
+  color: #fd4;
+}
+
+input:checked ~ label{
+    color: #fd4;
+  }
+
+input#rate-5:checked ~ label{
+    color: #fe7;
+  }
