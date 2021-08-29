@@ -4,7 +4,7 @@
     
 
     {% for offer in offers %}
-        <a href="{{ url_for('offer', offer_id=offer._id, reviews=reviews) }}">Full Offer</a>
+        <a href="{{ url_for('offer', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">Full Offer</a>
         {{ offer.offer_name }}<br>
         {{ offer.offer_description }}<br>
         {{ offer.old_price }}<br>

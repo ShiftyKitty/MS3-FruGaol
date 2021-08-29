@@ -147,20 +147,20 @@ def consumer_signup():
             return redirect(url_for("consumer_signup"))
             
         consumer_user = {
-            "consumer_name": request.form.get("consumer_name").lower(),
+            "consumer_name": request.form.get("consumer_name"),
             "consumer_address_line_1": request.form.get("consumer_address_line_1"),
             "consumer_address_line_2": request.form.get("consumer_address_line_2"),
             "consumer_address_line_3": request.form.get("consumer_address_line_3"),
             "consumer_contact_number": request.form.get("consumer_contact_number"),
-            "consumer_email_address": request.form.get("consumer_email_address"),
-            "consumer_dob": request.form.get("consumer_email_address"),
+            "consumer_email_address": request.form.get("consumer_email_address").lower(),
+            "consumer_dob": request.form.get("consumer_dob"),
             "profile_pic": profile_pic.filename,
             "consumer_password": generate_password_hash(request.form.get("consumer_password"))
         }
         mongo.db.consumer_users.insert_one(consumer_user)
 
         # put the new user into 'session' cookie
-        session["consumer"] = request.form.get("consumer_email_address").lower(), 
+        session["consumer"] = request.form.get("consumer_email_address").lower()
         flash("Registration Successful!")
         return redirect(url_for("consumer_profile", consumer_email_address=session["consumer"]))
 
@@ -426,8 +426,13 @@ def create_review(offer_id):
 
         reviews = mongo.db.reviews.find()
 
+        current_consumer = mongo.db.consumer_users.find_one({"consumer_email_address": session["consumer"]})
+
+        consumer_name = mongo.db.consumer_users.find_one({"consumer_name": current_consumer})
+
         customer_review = {
             "created_by": session["consumer"],
+            "consumer_name": consumer_name,
             "offer_id": offer_id,
             "rate": request.form.get("rate"),
             "consumer_review": request.form.get("consumer_review")
@@ -435,7 +440,7 @@ def create_review(offer_id):
 
         mongo.db.reviews.insert_one(customer_review)
         flash("Review Submitted")
-        return redirect(url_for("offer", offer=offer, offer_id=offer_id, reviews=reviews))
+        return redirect(url_for("offer", offer=offer, offer_id=offer_id, reviews=reviews, consumer_name=consumer_name))
 
     return render_template("offer.html")
 
@@ -444,3 +449,4 @@ if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
             debug=True)
+            

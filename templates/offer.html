@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="offer_description card-panel">
-                    <h6>{{ offer.offer_type }} Description</h6>
+                    <h6>{{ offer.offer_type.capitalize() }} Description</h6>
                     <p>{{ offer.offer_description }}</p>
                 </div>
                 <div class="price card-panel">
@@ -48,7 +48,7 @@
             <div class="offer-reviews card-panel">
                 <h5>Reviews</h5>
             </div>
-            <form class="col s12" method="POST" enctype="multipart/form-data" action="{{ url_for('create_review', offer_id=offer._id, reviews=reviews) }}">
+            <form class="col s12" method="POST" enctype="multipart/form-data" action="{{ url_for('create_review', offer_id=offer._id, reviews=reviews, consumer_name=consumer_name, consumer_users=consumer_users) }}">
 
                 <div class="star-widget">
                     <input type="radio" name="rate" id="rate-5" value="5" required>
@@ -77,12 +77,12 @@
                 </div>
             </form>
             {% for review in reviews %}
-                {% if offer._id == review.offer_id %}
+                {% if offer._id|string == review.offer_id|string %}
                     <div class="row">
                         <div class="col s12 center-align card-panel">
                         {{ review.created_by }} <br>
-                        {{ review.offer_id }} <br>
-                        {{ review.rate }} <br>
+                        {{ review.consumer_name }} <br>
+                        {{ review.rate }}/5 <br>
                         {{ review.consumer_review }} <br>
                         </div>
                     </div>
