@@ -69,3 +69,37 @@ input:checked ~ label{
 input#rate-5:checked ~ label{
     color: #fe7;
   }
+
+  .offers-container .s12 {
+    min-width: 50vw;
+    height: 18vw;
+
+  }
+
+  .offers-container .grid {
+    grid-template-columns: 100px 50px 100px;
+    grid-template-rows: 80px auto 80px; 
+    column-gap: 10px;
+    row-gap: 15px;
+  }
+
+  .grid {
+    
+
+  }
+
+  .offer-container {
+    border: 1px solid black;
+    align-content: space-evenly;    
+    justify-content: space-evenly;
+    max-width: 30vw;
+    height: 30vw;
+   }
+
+   .offer-window img {
+       min-width: 18vw;
+       height: 18vw;
+   }
+
+
+
