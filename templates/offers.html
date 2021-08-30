@@ -29,15 +29,15 @@
                     {% for offer in offers %}
         
                         <div class="col s12 m4 l3 offer-container">
-                            <a href="{{ url_for('offer', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">Full Offer</a>
                             <div class="offer-window">
                                 <img src="{{ url_for('file', filename=offer['offer_img'] )}}">
                             </div>
-                            <div>{{ offer.offer_name }}</div>
-                            <div>{{ offer.old_price }}</div>
-                            <div>{{ offer.offer_price }}</div>                          
+                            <div class="underline"><a href="{{ url_for('offer', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">{{ offer.offer_name }}</a></div>
+                            <div>Old Price: <span class="cross-out">{{ offer.old_price }}</span></div>
+                            <div>Current Price: {{ offer.offer_price }}</div>                          
                         </div>
                     {% endfor %}
+                    
             </div>
         </div>
     </div>

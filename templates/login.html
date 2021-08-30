@@ -5,9 +5,11 @@
 
     
     <div class="row">
-        <form class="col s12 m8 offset-m2" method="POST" enctype="multipart/form-data" action="{{ url_for('login') }}">
+        <!-- business login -->
+        <form class="col s12 l6" method="POST" enctype="multipart/form-data" action="{{ url_for('login') }}">
             <div class="card-panel">
                 <!-- business email address -->
+                <h4>Business Login</h4>
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
@@ -31,12 +33,12 @@
                 </div>
             </div>
         </form>
-    </div>
 
-    <div class="row">
-        <form class="col s12 m8 offset-m2" method="POST" enctype="multipart/form-data" action="{{ url_for('consumer_login') }}">
+        <!-- consumer login -->
+        <form class="col s12 l6" method="POST" enctype="multipart/form-data" action="{{ url_for('consumer_login') }}">
             <div class="card-panel">
                 <!-- business email address -->
+                <h4>Consumer Login</h4>
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
