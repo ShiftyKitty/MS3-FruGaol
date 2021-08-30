@@ -1,18 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
 
+    <div class="row card-panel grey lighten-5">
+        <form action="{{ url_for('search_offers') }}" method="post" class="col s12">
+            <div class="row valign-wrapper center-align">
+                <div class="input-field col s6 m6">
+                    <i class="fas fa-search prefix light-blue-text text-darken-4"></i>
+                    <input type="text" name="query" id="query" minlength="3" class="validate">
+                    <label for="query">Search Offers</label>
+                </div>
+                <div class="input-field col s6 m2">
+                    <input type="number" name="offer_price" id="offer_price" minlength="2" class="validate">
+                    <label for="offer_price">Price</label>
+                </div>
+                <div class="col s12 m4">
+                    <a href="{{ url_for('offers') }}" class="red btn text-shadow">Reset</a>
+                    <button type="submit" class="light-blue darken-1 btn text-shadow">
+                        <i class="fas fa-search left"></i> Search
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+        {% for offer in offers %}
+            <a href="{{ url_for('offer', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">Full Offer</a>
+            {{ offer.offer_name }}<br>
+            {{ offer.offer_description }}<br>
+            {{ offer.old_price }}<br>
+            {{ offer.offer_price }}<br>
+            {{ offer.offer_img }}<br>
+            {{ offer.business_details }}<br>
+            {{ offer.review }}<br>
+        {% endfor %}
+  
     
-
-    {% for offer in offers %}
-        <a href="{{ url_for('offer', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">Full Offer</a>
-        {{ offer.offer_name }}<br>
-        {{ offer.offer_description }}<br>
-        {{ offer.old_price }}<br>
-        {{ offer.offer_price }}<br>
-        {{ offer.offer_img }}<br>
-        {{ offer.business_details }}<br>
-        {{ offer.review }}<br>
-    {% endfor %}
+  
 
    
 

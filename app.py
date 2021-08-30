@@ -445,6 +445,26 @@ def create_review(offer_id):
     return render_template("offer.html")
 
 
+@app.route("/search_offers", methods=["GET", "POST"])
+def search_offers():
+    query = request.form.get("query")
+    offers = list(mongo.db.offers.find({"$text": {"$search": query}}))
+    return render_template("offers.html", offers=offers)
+
+
+@app.route("/search_business", methods=["GET", "POST"])
+def search_business():
+    business_search = request.form.get("business_search")
+    business_users = list(mongo.db.business_users.find({"$text": {"$search": business_search}}))
+    return render_template("businesses.html", business_users=business_users)
+
+
+@app.route("/businesses", methods=["GET", "POST"])
+def businesses():
+    businesses = mongo.db.business_users.find()
+    return render_template("businesses.html", businesses=businesses)
+
+
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
