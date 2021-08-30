@@ -1,34 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h3 class="center-align">Business Sign Up</h3>
-
-
+    <h3 class="center-align">Edit {{ session["user"] }} Details</h3>
 
     <div class="row">
-        <form class="col s12 m8 offset-m2" method="POST" enctype="multipart/form-data" action="{{ url_for('business_signup') }}">
+        <form class="col s12 m8 offset-m2" method="POST" enctype="multipart/form-data" action="{{ url_for('edit_profile', business_name=session['user']) }}">
             <div class="card-panel">
                 <!-- business name -->
-                <div class="row">
-					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_name" name="business_name" type="text" class="validate" required>
-						<label for="business_name">Business Name</label>
-					</div>
-                </div>
                 <!-- Sign Up name -->
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="signers_name" name="signers_name" type="text" class="validate" required>
-						<label for="signers_name">Your full name</label>
+						<input id="signers_name" name="signers_name" value="{{ business_name.signers_name }}" type="text" class="validate" required>
+						<label for="signers_name">Contact name</label>
 					</div>
                 </div>
 				<!-- industry -->
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="industry" name="industry" type="text" class="validate" required>
+						<input id="industry" name="industry" value="{{ business_name.industry }}" type="text" class="validate" required>
 						<label for="industry">Industry</label>
 					</div>
                 </div>
@@ -36,7 +27,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_contact_number" name="business_contact_number" type="number" class="validate" required>
+						<input id="business_contact_number" name="business_contact_number" value="{{ business_name.business_contact_number }}" type="number" class="validate" required>
 						<label for="business_contact_number">Contact Number</label>
 					</div>
                 </div>
@@ -44,7 +35,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_address_line_1" name="business_address_line_1" type="text" class="validate" required>
+						<input id="business_address_line_1" name="business_address_line_1" value="{{ business_name.business_address_line_1 }}" type="text" class="validate" required>
 						<label for="business_address_line_1">Business Address Line 1</label>
 					</div>
                 </div>
@@ -52,7 +43,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_address_line_2" name="business_address_line_2" type="text" class="validate" required>
+						<input id="business_address_line_2" name="business_address_line_2" value="{{ business_name.business_address_line_2 }}" type="text" class="validate" required>
 						<label for="business_address_line_2">Business Address Line 2</label>
 					</div>
                 </div>
@@ -60,7 +51,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_address_line_3" name="business_address_line_3" type="text" class="validate" required>
+						<input id="business_address_line_3" name="business_address_line_3" value="{{ business_name.business_address_line_3 }}" type="text" class="validate" required>
 						<label for="business_address_line_3">Business Address Line 3</label>
 					</div>
                 </div>
@@ -68,7 +59,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_email_address" name="business_email_address" type="email" class="validate" required>
+						<input id="business_email_address" name="business_email_address" value="{{ business_name.business_email_address }}" type="email" class="validate" required>
 						<label for="business_email_address">Email Address</label>
 					</div>
                 </div>
@@ -76,7 +67,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="facebook" name="facebook" type="text" class="validate">
+						<input id="facebook" name="facebook" type="text" value="{{ business_name.facebook }}" class="validate">
 						<label for="facebook">Facebook</label>
 					</div>
                 </div>
@@ -84,7 +75,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="instagram" name="instagram" type="text" class="validate">
+						<input id="instagram" name="instagram" type="text" value="{{ business_name.instagram }}" class="validate">
 						<label for="instagram">Instagram</label>
 					</div>
                 </div>
@@ -92,7 +83,7 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="twitter" name="twitter" type="text" class="validate">
+						<input id="twitter" name="twitter" type="text" value="{{ business_name.twitter }}" class="validate">
 						<label for="twitter">Twitter</label>
 					</div>
                 </div>
@@ -100,30 +91,30 @@
                 <div class="row">
 					<div class="input-field col s12">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="website_url" name="website_url" type="text" class="validate">
+						<input id="website_url" name="website_url" type="text" value="{{ business_name.website_url }}" class="validate">
 						<label for="website_url">Website</label>
 					</div>
                 </div>
                 <!-- logo -->
                 <div class="row">
 					<div class="col s12">
-						<input id="logo" name="logo" type="file" class="validate">
-						<label for="logo">Add Logo</label>
+						<input id="logo" name="logo" type="file" value="{{ business_name.logo }}" class="validate">
+						<label for="logo">Update Logo</label>
 					</div>
                 </div>
-                <!-- password -->
-                <div class="row">
+				 <!-- password -->
+				 <div class="row">
                     <div class="input-field col s12">
 						<i class="fas fa-user-lock prefix light-blue-text text-darken-4"></i>
                         <input id="password" name="password" type="password" minlength="5"
-							maxlength="15" pattern="^[a-zA-Z0-9]{5,15}$" class="validate" required>
+							maxlength="15" pattern="^[a-zA-Z0-9]{5,15}$" value="" class="validate" required>
                         <label for="password">Password</label>
                     </div>
                 </div>
                 <!-- register -->
                 <div class="row">
                     <button type="submit" class="col s12 btn-large light-blue darken-4 text-shadow">
-                        Register <i class="fas fa-sign-in-alt"></i>
+                        Save Changes <i class="fas fa-sign-in-alt"></i>
                     </button>
                 </div>
             </div>

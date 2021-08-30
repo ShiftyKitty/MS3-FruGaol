@@ -82,15 +82,15 @@ def business_signup():
                 
         # check if business_name already exists in db
         existing_user = mongo.db.business_users.find_one(
-            {"business_name": request.form.get("business_name").lower()})
+            {"business_name": request.form.get("business_name").upper()})
             
         if existing_user:
             flash("business_name already exists")
             return redirect(url_for("business_signup"))
             
         business_signup = {
-            "business_name": request.form.get("business_name").lower(),
-            "signers_name": request.form.get("sign_up_name"),
+            "business_name": request.form.get("business_name").upper(),
+            "signers_name": request.form.get("signers_name"),
             "industry": request.form.get("industry"),
             "business_address_line_1": request.form.get("business_address_line_1"),
             "business_address_line_2": request.form.get("business_address_line_2"),
@@ -107,7 +107,7 @@ def business_signup():
         mongo.db.business_users.insert_one(business_signup)
 
         # put the new user into 'session' cookie
-        session["user"] = request.form.get("business_name").lower()
+        session["user"] = request.form.get("business_name").upper()
         flash("Registration Successful!")
         return redirect(url_for("profile", business_name=session["user"]))
 
@@ -179,12 +179,12 @@ def login():
     if request.method == "POST":
         # check if business_name exists in db
         existing_user = mongo.db.business_users.find_one(
-            {"business_name": request.form.get("business_name").lower()})
+            {"business_name": request.form.get("business_name").upper()})
             
         if existing_user:
             # ensure hashed password matches user input
             if check_password_hash(existing_user["password"], request.form.get("password")):
-                session["user"] = request.form.get("business_name").lower()
+                session["user"] = request.form.get("business_name").upper()
                 flash("Welcome, {}".format(request.form.get("business_name")))
                 return redirect(url_for("offers", business_name=session["user"]))
                 
@@ -259,6 +259,61 @@ def profile(business_name):
         return render_template("profile.html", business_name=business_name, business_users=business_users)
     
     return redirect(url_for("login"))
+
+
+@app.route("/edit_profile/<business_name>/", methods=["GET", "POST"])
+def edit_profile(business_name):
+    if request.method == "POST":
+        # business logo saved to mongodb
+        if request.files:
+            logo = request.files["logo"]
+            
+            if "filesize" in request.cookies:
+                
+                if not allowed_img_filesize(request.cookies["filesize"]):
+                    flash("Filesize exceeded maximum limit")
+                    return redirect(url_for("business_signup"))
+       
+            if logo.filename == '':
+                flash("No filename. Please name file and try again")
+                return redirect(url_for("business_signup"))
+                
+            if allowed_img(logo.filename):
+                mongo.save_file(secure_filename(logo.filename), logo)
+                print("Logo saved")
+            else:
+                flash("That file extension is not permitted")
+                return redirect(url_for("business_signup"))
+                
+        # check if business_name already exists in db            
+        edit_details = {
+            "business_name": session["user"],
+            "signers_name": request.form.get("signers_name"),
+            "industry": request.form.get("industry"),
+            "business_address_line_1": request.form.get("business_address_line_1"),
+            "business_address_line_2": request.form.get("business_address_line_2"),
+            "business_address_line_3": request.form.get("business_address_line_3"),
+            "business_contact_number": request.form.get("business_contact_number"),
+            "business_email_address": request.form.get("business_email_address"),
+            "facebook": request.form.get("facebook"),
+            "instagram": request.form.get("instagram"),
+            "twitter": request.form.get("twitter"),
+            "website_url": request.form.get("website_url"),
+            "logo_img": logo.filename,
+            "password": generate_password_hash(request.form.get("password"))
+        }
+        mongo.db.business_users.update({"business_name": session["user"]}, edit_details)
+        flash("Profile Successfully Edited")
+
+    business_name = mongo.db.business_users.find_one({"business_name": session["user"]})
+    return render_template("edit_profile.html", business_name=business_name)
+
+
+@app.route("/close_account/<business_name>")
+def close_account(business_name):
+    mongo.db.business_users.remove({"business_name": session["user"]})
+    flash("Your account has been closed")
+    return redirect(url_for("logout"))
 
 
 @app.route("/consumer_profile/<consumer_email_address>", methods=["GET", "POST"])
@@ -340,7 +395,7 @@ def create_offer():
 
         mongo.db.offers.insert_one(offer)
         flash("Offer Successfully Created")
-        return redirect(url_for("offer.html"))
+        return redirect(url_for("offers"))
 
     return render_template("create_offer.html")
 
@@ -381,18 +436,18 @@ def edit_offer(offer_id):
                 
                 if not allowed_img_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
-                    return redirect(url_for("create_offer"))
+                    return redirect(url_for("edit_offer"))
        
             if offer_img.filename == '':
                 flash("No filename. Please name file and try again")
-                return redirect(url_for("create_offer"))
+                return redirect(url_for("edit_offer"))
                 
             if allowed_img(offer_img.filename):
                 mongo.save_file(secure_filename(offer_img.filename), offer_img)
                 print("Offer Image saved")
             else:
                 flash("That file extension is not permitted")
-                return redirect(url_for("create_offer"))
+                return redirect(url_for("edit_offer"))
 
         edit = {
             "offer_name": request.form.get("offer_name"),
@@ -413,9 +468,9 @@ def edit_offer(offer_id):
 
 @app.route("/offer_finish/<offer_id>")
 def offer_finish(offer_id):
-    mongo.db.tasks.remove({"_id": ObjectId(offer_id)})
+    mongo.db.offers.remove({"_id": ObjectId(offer_id)})
     flash("Offer Finished")
-    return redirect(url_for("profile"))
+    return redirect(url_for("offers"))
 
 
 @app.route("/create_review/<offer_id>", methods=["GET", "POST"])
