@@ -2,6 +2,11 @@
 {% block content %}
 
     <h3 class="center-align">Edit {{ session["user"] }} Details</h3>
+	<div class="row">
+		<button type="submit" class="col s12 m6 offset-m3 btn-large red text-shadow" href="{{ url_for('profile', business_name=session['user'])  }}">
+			Cancel <i class="fas fa-sign-in-alt"></i>
+		</button>
+	</div>
 
     <div class="row">
         <form class="col s12 m8 offset-m2" method="POST" enctype="multipart/form-data" action="{{ url_for('edit_profile', business_name=session['user']) }}">
@@ -95,6 +100,33 @@
 						<label for="website_url">Website</label>
 					</div>
                 </div>
+				<!-- business description -->
+				<div class="row">
+					<div class="input-field col s12">
+						<i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+						<textarea id="business_description" name="business_description" minlength="5"
+							maxlength="200" class="materialize-textarea validate" required>{{- business_name.business_description -}}</textarea>
+						<label for="business_description">Business Description</label>
+					</div>
+				</div>
+				<!-- products and service -->
+				<div class="row">
+					<div class="input-field col s12 m4">
+						<i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+						<input id="prodserv_1" name="prodserv_1" value="{{ business_name.prodserv_1 }}" type="text" required>
+						<label for="prodserv_1">Product/Service 1</label>
+					</div>
+					<div class="input-field col s12 m4">
+						<i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+						<input id="prodserv_2" name="prodserv_2" value="{{ business_name.prodserv_2 }}" type="text" required>
+						<label for="prodserv_2">Product/Service 2</label>
+					</div>
+					<div class="input-field col s12 m4">
+						<i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+						<input id="prodserv_3" name="prodserv_3" value="{{ business_name.prodserv_3 }}" type="text" required>
+						<label for="prodserv_3">Product/Service 3</label>
+					</div>
+				</div>
                 <!-- logo -->
                 <div class="row">
 					<div class="col s12">

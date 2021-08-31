@@ -96,11 +96,15 @@ def business_signup():
             "business_address_line_2": request.form.get("business_address_line_2"),
             "business_address_line_3": request.form.get("business_address_line_3"),
             "business_contact_number": request.form.get("business_contact_number"),
-            "business_email_address": request.form.get("business_email_address"),
+            "business_email_address": request.form.get("business_email_address").lower(),
             "facebook": request.form.get("facebook"),
             "instagram": request.form.get("instagram"),
             "twitter": request.form.get("twitter"),
             "website_url": request.form.get("website_url"),
+            "business_description": request.form.get("business_description"),
+            "prodserv_1": request.form.get("prodserv_1"),
+            "prodserv_2": request.form.get("prodserv_2"),
+            "prodserv_3": request.form.get("prodserv_3"),
             "logo_img": logo.filename,
             "password": generate_password_hash(request.form.get("password"))
         }
@@ -299,6 +303,10 @@ def edit_profile(business_name):
             "instagram": request.form.get("instagram"),
             "twitter": request.form.get("twitter"),
             "website_url": request.form.get("website_url"),
+            "business_description": request.form.get("business_description"),
+            "prodserv_1": request.form.get("prodserv_1"),
+            "prodserv_2": request.form.get("prodserv_2"),
+            "prodserv_3": request.form.get("prodserv_3"),
             "logo_img": logo.filename,
             "password": generate_password_hash(request.form.get("password"))
         }
