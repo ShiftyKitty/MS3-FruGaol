@@ -4,34 +4,27 @@
     {% for consumer_user in consumer_users %}
         {% if session.consumer|lower == consumer_user.consumer_email_address|lower %}
             <div class="row card-panel">
-                <div class="logo-container">
-                    <div class="col s12 m4 l4 card-panel">
-                        <img src="{{ url_for('file', filename=consumer_user['profile_pic'] )}}">
+                <div class="col s12 m4 l4 card-panel logo-container">
+                    <img src="{{ url_for('file', filename=consumer_user['profile_pic'] )}}">
+                </div>
+                <div class="col s12 m7 l7 push-l1 push-m1 consumer-details card-panel">
+                    <div class="col s12 m6">
+                        <h3>{{ consumer_user.consumer_name.capitalize() }}</h3>
+                        <div class="address">
+                            <p>Address Line 1: {{ consumer_user.consumer_address_line_1 }}</p>
+                            <p>Address Line 2: {{ consumer_user.consumer_address_line_2 }}</p>
+                            <p>Address Line 3: {{ consumer_user.consumer_address_line_3 }}</p>
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <h4>Contact Info</h4>
+                        <div class="col m6">
+                            <div class="cont-number">{{ consumer_user.consumer_contact_number }}</div>
+                            <div class="email-address">{{ consumer_user.consumer_email_address }}</div>
+                        </div>
                     </div>
                 </div>
-                <div class="col s12 m7 l7 push-l1 push-m1 business-details card-panel">
-                    <h3>{{ consumer_name }}</h3>
-                    
-                    <div class="address">
-                        <p>Address Line 1: {{ consumer_user.consumer_address_line_1 }}</p>
-                        <p>Address Line 2: {{ consumer_user.consumer_address_line_2 }}</p>
-                        <p>Address Line 3: {{ consumer_user.consumer_address_line_3 }}</p>
-                    </div>
-                </div>
-                <div class="col s12 m12 l7 push-l1 contact-info card-panel">
-                    <h4>Contact Info</h4>
-                    <div class="col m6">
-                        <div class="cont-number">{{ consumer_user.consumer_contact_number }}</div>
-                        <div class="email-address">{{ consumer_user.consumer_email_address }}</div>
-                    </div>
-                </div>
-
-            <div class="row">
-                <div class="col s12 reviews card-panel">
-                    <h4 class="center-align">Reviews & Testimonials</h4>
-
-                </div>
-
+            </div>
         {% endif %}
     {% endfor %}
 

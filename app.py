@@ -489,13 +489,10 @@ def create_review(offer_id):
 
         reviews = mongo.db.reviews.find()
 
-        current_consumer = mongo.db.consumer_users.find_one({"consumer_email_address": session["consumer"]})
-
-        consumer_name = mongo.db.consumer_users.find_one({"consumer_name": current_consumer})
+        consumer_user = mongo.db.consumer_users.find()
 
         customer_review = {
             "created_by": session["consumer"],
-            "consumer_name": consumer_name,
             "offer_id": offer_id,
             "rate": request.form.get("rate"),
             "consumer_review": request.form.get("consumer_review")
@@ -503,7 +500,7 @@ def create_review(offer_id):
 
         mongo.db.reviews.insert_one(customer_review)
         flash("Review Submitted")
-        return redirect(url_for("offer", offer=offer, offer_id=offer_id, reviews=reviews, consumer_name=consumer_name))
+        return redirect(url_for("offer", offer=offer, offer_id=offer_id, reviews=reviews, consumer_user=consumer_user))
 
     return render_template("offer.html")
 
