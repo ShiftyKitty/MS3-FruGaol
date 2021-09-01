@@ -181,7 +181,11 @@ div .col .social-media-container {
   font-size: 120%;
 }
 
-.contact-info .website {
+.contact-info .website .prodServ {
+  font-size: 120%;
+}
+
+.prodServ p {
   font-size: 120%;
 }
 
@@ -207,4 +211,12 @@ div .col .social-media-container {
 
 input[type="file"] {
   display: none;
+}
+
+.price {
+  height: 17vh;
+}
+
+.offer_description {
+  min-height: 17vh;
 }

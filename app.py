@@ -18,7 +18,7 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
 
 app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
-app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG"]
+app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "JFIF"]
 
 
 mongo = PyMongo(app)
@@ -130,17 +130,10 @@ def consumer_signup():
                 if not allowed_img_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
                     return redirect(url_for("consumer_signup"))
-       
-            if profile_pic.filename == '':
-                flash("No filename. Please name file and try again")
-                return redirect(url_for("consumer_signup"))
                 
             if allowed_img(profile_pic.filename):
                 mongo.save_file(secure_filename(profile_pic.filename), profile_pic)
                 print("Profile Pic saved")
-            else:
-                flash("That file extension is not permitted")
-                return redirect(url_for("consumer_signup"))
                 
         # check if existing_consumer already exists in db
         existing_consumer = mongo.db.consumer_users.find_one(
@@ -436,6 +429,7 @@ def my_offers(business_name):
 
 @app.route("/edit_offer/<offer_id>", methods=["GET", "POST"])
 def edit_offer(offer_id):
+    offer = mongo.db.offers.find_one({"_id": ObjectId(offer_id)})
     if request.method == "POST":
         # business offer img saved to mongodb
         if request.files:
@@ -449,7 +443,7 @@ def edit_offer(offer_id):
        
             if offer_img.filename == '':
                 flash("No filename. Please name file and try again")
-                return redirect(url_for("edit_offer"))
+                return render_template("edit_offer.html", offer=offer)
                 
             if allowed_img(offer_img.filename):
                 mongo.save_file(secure_filename(offer_img.filename), offer_img)
@@ -471,7 +465,7 @@ def edit_offer(offer_id):
         mongo.db.offers.update({"_id": ObjectId(offer_id)}, edit)
         flash("Offer Successfully Edited")
 
-    offer = mongo.db.offers.find_one({"_id": ObjectId(offer_id)})
+    
     return render_template("edit_offer.html", offer=offer)
 
 

@@ -15,12 +15,12 @@
                                 <div class="my-offer-window">
                                     <img src="{{ url_for('file', filename=offer['offer_img'] )}}">
                                 </div>
-                                <div class="underline">
+                                <p class="underline">
                                     <a href="{{ url_for('offer', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">{{ offer.offer_name }}</a>
-                                </div>
-                                <div>{{ offer.offer_description }}</span></div>
-                                <div>Old Price: <span class="cross-out">{{ offer.old_price }}</span></div>
-                                <div>Current Price: {{ offer.offer_price }}</div>                          
+                                </p>
+                                <p>{{ offer.offer_description }}</p>
+                                <p>Old Price: <span class="cross-out">{{ offer.old_price }}</span></p>
+                                <p>Current Price: {{ offer.offer_price }}</p>                          
                             </div>        
                         {% endif %}
                     {% endfor %}
