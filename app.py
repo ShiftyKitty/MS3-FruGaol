@@ -6,7 +6,7 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-if os.path.exists("env.py"):    
+if os.path.exists("env.py"):
     import env
 
 
@@ -29,24 +29,24 @@ mongo = PyMongo(app)
 def offers():
     offers = mongo.db.offers.find()
     return render_template("offers.html", offers=offers)
-    
+
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     return render_template("signup.html")
-    
+
 
 def allowed_img(filename):
     if "." not in filename:
         return False
-        
+
     ext = filename.rsplit(".", 1)[1]
-    
+
     if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
         return True
     else:
         return False
-        
+
 
 def allowed_img_filesize(filesize):
 
@@ -54,7 +54,7 @@ def allowed_img_filesize(filesize):
         return True
     else:
         return False
-        
+
 
 @app.route("/business_signup", methods=["GET", "POST"])
 def business_signup():
@@ -62,41 +62,46 @@ def business_signup():
         # business logo saved to mongodb
         if request.files:
             logo = request.files["logo"]
-            
+
             if "filesize" in request.cookies:
-                
+
                 if not allowed_img_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
                     return redirect(url_for("business_signup"))
-       
+
             if logo.filename == '':
                 flash("No filename. Please name file and try again")
                 return redirect(url_for("business_signup"))
-                
+
             if allowed_img(logo.filename):
                 mongo.save_file(secure_filename(logo.filename), logo)
                 print("Logo saved")
             else:
                 flash("That file extension is not permitted")
                 return redirect(url_for("business_signup"))
-                
+
         # check if business_name already exists in db
         existing_user = mongo.db.business_users.find_one(
             {"business_name": request.form.get("business_name").upper()})
-            
+
         if existing_user:
             flash("business_name already exists")
             return redirect(url_for("business_signup"))
-            
+
         business_signup = {
             "business_name": request.form.get("business_name").upper(),
             "signers_name": request.form.get("signers_name"),
             "industry": request.form.get("industry"),
-            "business_address_line_1": request.form.get("business_address_line_1"),
-            "business_address_line_2": request.form.get("business_address_line_2"),
-            "business_address_line_3": request.form.get("business_address_line_3"),
-            "business_contact_number": request.form.get("business_contact_number"),
-            "business_email_address": request.form.get("business_email_address").lower(),
+            "business_address_line_1": request.form.get(
+                "business_address_line_1"),
+            "business_address_line_2": request.form.get(
+                "business_address_line_2"),
+            "business_address_line_3": request.form.get(
+                "business_address_line_3"),
+            "business_contact_number": request.form.get(
+                "business_contact_number"),
+            "business_email_address": request.form.get(
+                "business_email_address").lower(),
             "facebook": request.form.get("facebook"),
             "instagram": request.form.get("instagram"),
             "twitter": request.form.get("twitter"),
@@ -124,42 +129,52 @@ def consumer_signup():
         # profile pic saved to mongodb
         if request.files:
             profile_pic = request.files["profile_pic"]
-            
+
             if "filesize" in request.cookies:
-                
+
                 if not allowed_img_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
                     return redirect(url_for("consumer_signup"))
-                
+
             if allowed_img(profile_pic.filename):
-                mongo.save_file(secure_filename(profile_pic.filename), profile_pic)
+                mongo.save_file(
+                    secure_filename(profile_pic.filename), profile_pic)
                 print("Profile Pic saved")
-                
+
         # check if existing_consumer already exists in db
         existing_consumer = mongo.db.consumer_users.find_one(
-            {"consumer_email_address": request.form.get("consumer_email_address").lower()})
-            
+            {"consumer_email_address": request.form.get(
+                "consumer_email_address").lower()})
+
         if existing_consumer:
             flash("Consumer email already exists. Please try again")
             return redirect(url_for("consumer_signup"))
-            
+
         consumer_user = {
             "consumer_name": request.form.get("consumer_name"),
-            "consumer_address_line_1": request.form.get("consumer_address_line_1"),
-            "consumer_address_line_2": request.form.get("consumer_address_line_2"),
-            "consumer_address_line_3": request.form.get("consumer_address_line_3"),
-            "consumer_contact_number": request.form.get("consumer_contact_number"),
-            "consumer_email_address": request.form.get("consumer_email_address").lower(),
+            "consumer_address_line_1": request.form.get(
+                "consumer_address_line_1"),
+            "consumer_address_line_2": request.form.get(
+                "consumer_address_line_2"),
+            "consumer_address_line_3": request.form.get(
+                "consumer_address_line_3"),
+            "consumer_contact_number": request.form.get(
+                "consumer_contact_number"),
+            "consumer_email_address": request.form.get(
+                "consumer_email_address").lower(),
             "consumer_dob": request.form.get("consumer_dob"),
             "profile_pic": profile_pic.filename,
-            "consumer_password": generate_password_hash(request.form.get("consumer_password"))
+            "consumer_password": generate_password_hash(request.form.get(
+                "consumer_password"))
         }
         mongo.db.consumer_users.insert_one(consumer_user)
 
-        # put the new user into 'session' cookie
-        session["consumer"] = request.form.get("consumer_email_address").lower()
+        # put the new consumer into 'session' cookie
+        session["consumer"] = request.form.get(
+            "consumer_email_address").lower()
         flash("Registration Successful!")
-        return redirect(url_for("consumer_profile", consumer_email_address=session["consumer"]))
+        return redirect(url_for(
+            "consumer_profile", consumer_email_address=session["consumer"]))
 
     return render_template("consumer_signup.html")
 
@@ -168,8 +183,6 @@ def consumer_signup():
 def file(filename):
     return mongo.send_file(filename)
 
-# @app.route("/consumer_signup", methods=["GET", "POST"])
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -177,19 +190,20 @@ def login():
         # check if business_name exists in db
         existing_user = mongo.db.business_users.find_one(
             {"business_name": request.form.get("business_name").upper()})
-            
+
         if existing_user:
             # ensure hashed password matches user input
             if check_password_hash(existing_user["password"], request.form.get("password")):
                 session["user"] = request.form.get("business_name").upper()
                 flash("Welcome, {}".format(request.form.get("business_name")))
-                return redirect(url_for("offers", business_name=session["user"]))
-                
+                return redirect(url_for(
+                    "offers", business_name=session["user"]))
+
             else:
                 # invalid password match
                 flash("Incorrect business_name and/or Password")
                 return redirect(url_for("login"))
-                
+
         else:
             # business_name doesn't exist
             flash("Incorrect business_name and/or Password")
@@ -197,24 +211,27 @@ def login():
 
         # consumer login
         existing_consumer = mongo.db.consumer_users.find_one(
-            {"consumer_email_address": request.form.get("consumer_email_address").lower()})
-            
+            {"consumer_email_address": request.form.get(
+                "consumer_email_address").lower()})
+
         if existing_consumer:
             # ensure hashed password matches user input
             if check_password_hash(existing_user["consumer_password"], request.form.get("consumer_password")):
-                session["consumer"] = request.form.get("consumer_email_address").lower()
-                return redirect(url_for("offers", consumer_email_address=session["consumer"]))
-                
+                session["consumer"] = request.form.get(
+                    "consumer_email_address").lower()
+                return redirect(url_for(
+                    "offers", consumer_email_address=session["consumer"]))
+
             else:
                 # invalid password match
                 flash("Incorrect Email and/or Password")
                 return redirect(url_for("login"))
-                
+
         else:
             # business_name doesn't exist
             flash("Incorrect Email and/or Password")
             return redirect(url_for("login"))
-            
+
     return render_template("login.html")
 
 
@@ -223,24 +240,29 @@ def consumer_login():
     if request.method == "POST":
         # consumer login
         existing_consumer = mongo.db.consumer_users.find_one(
-            {"consumer_email_address": request.form.get("consumer_email_address").lower()})
-            
+            {"consumer_email_address": request.form.get(
+                "consumer_email_address").lower()})
+
         if existing_consumer:
             # ensure hashed password matches user input
-            if check_password_hash(existing_consumer["consumer_password"], request.form.get("consumer_password")):
-                session["consumer"] = request.form.get("consumer_email_address").lower()
-                return redirect(url_for("offers", consumer_email_address=session["consumer"]))
-                
+            if check_password_hash(
+                existing_consumer["consumer_password"], request.form.get(
+                    "consumer_password")):
+                session["consumer"] = request.form.get(
+                    "consumer_email_address").lower()
+                return redirect(url_for(
+                    "offers", consumer_email_address=session["consumer"]))
+
             else:
                 # invalid password match
                 flash("Incorrect Email and/or Password")
                 return redirect(url_for("consumer_login"))
-                
+
         else:
             # business_name doesn't exist
             flash("Incorrect Email and/or Password")
             return redirect(url_for("consumer_login"))
-            
+
     return render_template("login.html")
 
 
@@ -249,12 +271,13 @@ def profile(business_name):
     # grab the session user's business_name from db
     business_name = mongo.db.business_users.find_one(
         {"business_name": session["user"]})["business_name"]
-    
+
     business_users = mongo.db.business_users.find()
 
     if session["user"]:
-        return render_template("profile.html", business_name=business_name, business_users=business_users)
-    
+        return render_template(
+            "profile.html", business_name=business_name, business_users=business_users)
+
     return redirect(url_for("login"))
 
 
@@ -264,34 +287,39 @@ def edit_profile(business_name):
         # business logo saved to mongodb
         if request.files:
             logo = request.files["logo"]
-            
+
             if "filesize" in request.cookies:
-                
+
                 if not allowed_img_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
                     return redirect(url_for("business_signup"))
-       
+
             if logo.filename == '':
                 flash("No filename. Please name file and try again")
                 return redirect(url_for("business_signup"))
-                
+
             if allowed_img(logo.filename):
                 mongo.save_file(secure_filename(logo.filename), logo)
                 print("Logo saved")
             else:
                 flash("That file extension is not permitted")
                 return redirect(url_for("business_signup"))
-                
-        # check if business_name already exists in db            
+
+        # check if business_name already exists in db
         edit_details = {
             "business_name": session["user"],
             "signers_name": request.form.get("signers_name"),
             "industry": request.form.get("industry"),
-            "business_address_line_1": request.form.get("business_address_line_1"),
-            "business_address_line_2": request.form.get("business_address_line_2"),
-            "business_address_line_3": request.form.get("business_address_line_3"),
-            "business_contact_number": request.form.get("business_contact_number"),
-            "business_email_address": request.form.get("business_email_address"),
+            "business_address_line_1": request.form.get(
+                "business_address_line_1"),
+            "business_address_line_2": request.form.get(
+                "business_address_line_2"),
+            "business_address_line_3": request.form.get(
+                "business_address_line_3"),
+            "business_contact_number": request.form.get(
+                "business_contact_number"),
+            "business_email_address": request.form.get(
+                "business_email_address"),
             "facebook": request.form.get("facebook"),
             "instagram": request.form.get("instagram"),
             "twitter": request.form.get("twitter"),
@@ -303,18 +331,13 @@ def edit_profile(business_name):
             "logo_img": logo.filename,
             "password": generate_password_hash(request.form.get("password"))
         }
-        mongo.db.business_users.update({"business_name": session["user"]}, edit_details)
+        mongo.db.business_users.update(
+            {"business_name": session["user"]}, edit_details)
         flash("Profile Successfully Edited")
 
-    business_name = mongo.db.business_users.find_one({"business_name": session["user"]})
+    business_name = mongo.db.business_users.find_one(
+        {"business_name": session["user"]})
     return render_template("edit_profile.html", business_name=business_name)
-
-
-@app.route("/close_account/<business_name>")
-def close_account(business_name):
-    mongo.db.business_users.remove({"business_name": session["user"]})
-    flash("Your account has been closed")
-    return redirect(url_for("logout"))
 
 
 @app.route("/consumer_profile/<consumer_email_address>", methods=["GET", "POST"])
@@ -326,22 +349,23 @@ def consumer_profile(consumer_email_address):
     consumer_users = mongo.db.consumer_users.find()
 
     if session["consumer"]:
-        return render_template("consumer_profile.html", consumer_email_address=consumer_email_address, consumer_users=consumer_users)
-    
+        return render_template(
+            "consumer_profile.html", consumer_email_address=consumer_email_address, consumer_users=consumer_users)
+
     return redirect(url_for("login"))
 
 
 @app.route("/business_profile/<business_name>", methods=["GET", "POST"])
 def business_profile(business_name):
     # grab the business info for customers from db
-    business_users = mongo.db.business_users.find() 
-
+    business_users = mongo.db.business_users.find()
     business_name = mongo.db.business_users.find_one(
         {"business_name": business_name})["business_name"]
-    
-    return render_template("business_profile.html", business_name=business_name, business_users=business_users)
-    
-    
+
+    return render_template(
+        "business_profile.html", business_name=business_name, business_users=business_users)
+
+
 @app.route("/logout")
 def logout():
     # remove user from session cookies
@@ -366,17 +390,17 @@ def create_offer():
         # business offer img saved to mongodb
         if request.files:
             offer_img = request.files["offer_img"]
-            
+
             if "filesize" in request.cookies:
-                
+
                 if not allowed_img_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
                     return redirect(url_for("create_offer"))
-       
+
             if offer_img.filename == '':
                 flash("No filename. Please name file and try again")
                 return redirect(url_for("create_offer"))
-                
+
             if allowed_img(offer_img.filename):
                 mongo.save_file(secure_filename(offer_img.filename), offer_img)
                 print("Offer Image saved")
@@ -403,14 +427,14 @@ def create_offer():
 
 @app.route("/offer/<offer_id>", methods=["GET", "POST"])
 def offer(offer_id):
-    # grab the session user's business_name from db
-    
-    offers = mongo.db.offers.find()    
+    # grab the offer id from db
+    offers = mongo.db.offers.find()
     offer = mongo.db.offers.find_one({"_id": ObjectId(offer_id)})
-    reviews = mongo.db.reviews.find() 
-    consumer_users = mongo.db.consumer_users.find() 
+    reviews = mongo.db.reviews.find()
+    consumer_users = mongo.db.consumer_users.find()
 
-    return render_template("offer.html", offer=offer, offers=offers, reviews=reviews, consumer_users=consumer_users)
+    return render_template(
+        "offer.html", offer=offer, offers=offers, reviews=reviews, consumer_users=consumer_users)
 
 
 @app.route("/my_offers/<business_name>", methods=["GET", "POST"])
@@ -418,13 +442,15 @@ def my_offers(business_name):
     # grab the session user's business_name from db
     business_name = mongo.db.business_users.find_one(
         {"business_name": session["user"]})["business_name"]
-    
+
     offers = mongo.db.offers.find()
 
     if session["user"]:
-        return render_template("my_offers.html", business_name=business_name, offers=offers)
-    
-    return render_template("my_offers.html", offers=offers, business_name=business_name)
+        return render_template(
+            "my_offers.html", business_name=business_name, offers=offers)
+
+    return render_template(
+        "my_offers.html", offers=offers, business_name=business_name)
 
 
 @app.route("/edit_offer/<offer_id>", methods=["GET", "POST"])
@@ -434,17 +460,17 @@ def edit_offer(offer_id):
         # business offer img saved to mongodb
         if request.files:
             offer_img = request.files["offer_img"]
-            
+
             if "filesize" in request.cookies:
-                
+
                 if not allowed_img_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
                     return redirect(url_for("edit_offer"))
-       
+
             if offer_img.filename == '':
                 flash("No filename. Please name file and try again")
                 return render_template("edit_offer.html", offer=offer)
-                
+
             if allowed_img(offer_img.filename):
                 mongo.save_file(secure_filename(offer_img.filename), offer_img)
                 print("Offer Image saved")
@@ -494,7 +520,8 @@ def create_review(offer_id):
 
         mongo.db.reviews.insert_one(customer_review)
         flash("Review Submitted")
-        return redirect(url_for("offer", offer=offer, offer_id=offer_id, reviews=reviews, consumer_user=consumer_user))
+        return redirect(url_for(
+            "offer", offer=offer, offer_id=offer_id, reviews=reviews, consumer_user=consumer_user))
 
     return render_template("offer.html")
 
@@ -509,7 +536,8 @@ def search_offers():
 @app.route("/search_business", methods=["GET", "POST"])
 def search_business():
     business_search = request.form.get("business_search")
-    business_users = list(mongo.db.business_users.find({"$text": {"$search": business_search}}))
+    business_users = list(mongo.db.business_users.find(
+        {"$text": {"$search": business_search}}))
     return render_template("businesses.html", business_users=business_users)
 
 
@@ -524,38 +552,48 @@ def edit_consumer_profile(consumer_email_address):
     if request.method == "POST":
         # profile pic saved to mongodb
         profile_pic = request.files["profile_pic"]
-        
+
         if "filesize" in request.cookies:
-            
+
             if not allowed_img_filesize(request.cookies["filesize"]):
                 flash("Filesize exceeded maximum limit")
                 return redirect(url_for("consumer_signup"))
-                
+
             if allowed_img(profile_pic.filename):
-                mongo.save_file(secure_filename(profile_pic.filename), profile_pic)
+                mongo.save_file(secure_filename(
+                    profile_pic.filename), profile_pic)
                 print("Profile Pic saved")
-            
+
         edit_details = {
             "consumer_name": request.form.get("consumer_name"),
-            "consumer_address_line_1": request.form.get("consumer_address_line_1"),
-            "consumer_address_line_2": request.form.get("consumer_address_line_2"),
-            "consumer_address_line_3": request.form.get("consumer_address_line_3"),
-            "consumer_contact_number": request.form.get("consumer_contact_number"),
-            "consumer_email_address": request.form.get("consumer_email_address").lower(),
+            "consumer_address_line_1": request.form.get(
+                "consumer_address_line_1"),
+            "consumer_address_line_2": request.form.get(
+                "consumer_address_line_2"),
+            "consumer_address_line_3": request.form.get(
+                "consumer_address_line_3"),
+            "consumer_contact_number": request.form.get(
+                "consumer_contact_number"),
+            "consumer_email_address": request.form.get(
+                "consumer_email_address").lower(),
             "consumer_dob": request.form.get("consumer_dob"),
             "profile_pic": profile_pic.filename,
-            "consumer_password": generate_password_hash(request.form.get("consumer_password"))
+            "consumer_password": generate_password_hash(request.form.get(
+                "consumer_password"))
         }
 
-        mongo.db.consumer_users.update({"consumer_email_address": session["consumer"]}, edit_details)
+        mongo.db.consumer_users.update(
+            {"consumer_email_address": session["consumer"]}, edit_details)
         flash("Profile Successfully Edited")
 
-    consumer_email_address = mongo.db.consumer_users.find_one({"consumer_email_address": session["consumer"]})
-    return render_template("edit_consumer_profile.html", consumer_email_address=consumer_email_address)
+    consumer_email_address = mongo.db.consumer_users.find_one(
+        {"consumer_email_address": session["consumer"]})
+
+    return render_template(
+        "edit_consumer_profile.html", consumer_email_address=consumer_email_address)
 
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
             debug=True)
-            
