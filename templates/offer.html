@@ -94,7 +94,7 @@
             {% endif %}
 
             {% for review in reviews %}
-                    {% if offer._id|string == review.offer_id|string %}
+                {% if offer._id|string == review.offer_id|string %}
                         <div class="row">
                             <div class="col s12 center-align card-panel">
                                 <div class="col s4">
@@ -107,11 +107,11 @@
                                 </div> 
                                 <div class="col s4">
                                     <h6>Rating</h6>
-                                    {{ review.rate }} out of 5 
+                                    {{ review.rate }} <i class="fas fa-star"></i>
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
+                {% endif %}
             {% endfor %}
         </div>
     </div>

@@ -415,8 +415,9 @@ def offer(offer_id):
     offers = mongo.db.offers.find()    
     offer = mongo.db.offers.find_one({"_id": ObjectId(offer_id)})
     reviews = mongo.db.reviews.find() 
+    consumer_users = mongo.db.consumer_users.find() 
 
-    return render_template("offer.html", offer=offer, offers=offers, reviews=reviews)
+    return render_template("offer.html", offer=offer, offers=offers, reviews=reviews, consumer_users=consumer_users)
 
 
 @app.route("/my_offers/<business_name>", methods=["GET", "POST"])

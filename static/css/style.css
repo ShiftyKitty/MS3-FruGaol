@@ -200,3 +200,11 @@ div .col .social-media-container {
   overflow: hidden;
   object-fit: cover;
 }
+
+.search-button button {
+  height: 100%;
+}
+
+input[type="file"] {
+  display: none;
+}

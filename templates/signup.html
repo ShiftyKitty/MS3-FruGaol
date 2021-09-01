@@ -7,24 +7,22 @@
         <!-- business sign up -->
         <div class="card-panel">
             <div class="row">
-                <div class="col s8">
-                    <a href="{{ url_for('business_signup') }}">Looking for more Business?</a>
+                <div class="col s12 center-align">
+                    <h5><a href="{{ url_for('business_signup') }}">Looking for more Business?</a></h5>
                 </div>
             </div>
         </div>
         <!-- consumer sign up -->
         <div class="card-panel">
             <div class="row">
-                <div class="col s8">
-                    <a href="{{ url_for('consumer_signup') }}">Looking for better Deals?</a>
+                <div class="col s12 center-align">
+                    <h5><a href="{{ url_for('consumer_signup') }}">Looking for better Deals?</a></h5>
                 </div>
             </div>
         </div>
-        <div class="card-panel">
-            <div class="row">
-                <div class="col s8">
-                    Already a User? <a href="{{ url_for('login') }}">Log In</a>
-                </div>
+        <div class="row">
+            <div class="col s12 center-align">
+                <p>Already a User? <a href="{{ url_for('login') }}">Log In</a></p>
             </div>
         </div>
     </div>

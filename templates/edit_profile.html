@@ -3,35 +3,41 @@
 
     <h3 class="center-align">Edit {{ session["user"] }} Details</h3>
 	<div class="row">
-		<button type="submit" class="col s12 m6 offset-m3 btn-large red text-shadow" href="{{ url_for('profile', business_name=session['user'])  }}">
-			Cancel <i class="fas fa-sign-in-alt"></i>
-		</button>
+		<a class="col s12 m6 offset-m3 btn-large red text-shadow" href="{{ url_for('profile', business_name=session['user'])  }}">
+			Back to Profile <i class="fas fa-sign-in-alt"></i>
+		</a>
 	</div>
 
     <div class="row">
         <form class="col s12 m8 offset-m2" method="POST" enctype="multipart/form-data" action="{{ url_for('edit_profile', business_name=session['user']) }}">
             <div class="card-panel">
-                <!-- business name -->
-                <!-- Sign Up name -->
+                <!-- business name -->			 
+				<!-- Sign Up name -->
                 <div class="row">
-					<div class="input-field col s12">
+					<div class="input-field col s12 m6">
 						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="signers_name" name="signers_name" value="{{ business_name.signers_name }}" type="text" class="validate" required>
+						<input id="signers_name" name="signers_name" type="text" value="{{ business_name.signers_name }}" class="validate" required>
 						<label for="signers_name">Contact name</label>
 					</div>
-                </div>
 				<!-- industry -->
-                <div class="row">
-					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="industry" name="industry" value="{{ business_name.industry }}" type="text" class="validate" required>
+					<div class="input-field col s12 m6">
+						<i class="fas fa-industry prefix light-blue-text text-darken-4"></i>
+						<input id="industry" name="industry" type="text" value="{{ business_name.industry }}" class="validate" required>
 						<label for="industry">Industry</label>
 					</div>
                 </div>
-                <!-- business contact number -->
+				<!-- business email address -->
                 <div class="row">
-					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+					<div class="input-field col s12 m6">
+						<i class="fas fa-at prefix light-blue-text text-darken-4"></i>
+						<input id="business_email_address" name="business_email_address" type="email" value="{{ business_name.business_email_address }}" class="validate" required>
+						<label for="business_email_address">Email Address</label>
+					</div>
+                
+                <!-- business contact number -->
+                
+					<div class="input-field col s12 m6">
+						<i class="fas fa-phone-alt prefix light-blue-text text-darken-4"></i>
 						<input id="business_contact_number" name="business_contact_number" value="{{ business_name.business_contact_number }}" type="number" class="validate" required>
 						<label for="business_contact_number">Contact Number</label>
 					</div>
@@ -39,7 +45,7 @@
                 <!-- Business Address Line 1 -->
                 <div class="row">
 					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<i class="fas fa-map-marker-alt prefix light-blue-text text-darken-4"></i>
 						<input id="business_address_line_1" name="business_address_line_1" value="{{ business_name.business_address_line_1 }}" type="text" class="validate" required>
 						<label for="business_address_line_1">Business Address Line 1</label>
 					</div>
@@ -47,7 +53,7 @@
                 <!-- Business Address Line 2 -->
                 <div class="row">
 					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<i class="fas fa-map-marker-alt prefix light-blue-text text-darken-4"></i>
 						<input id="business_address_line_2" name="business_address_line_2" value="{{ business_name.business_address_line_2 }}" type="text" class="validate" required>
 						<label for="business_address_line_2">Business Address Line 2</label>
 					</div>
@@ -55,39 +61,30 @@
                 <!-- Business Address Line 3 -->
                 <div class="row">
 					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<i class="fas fa-map-marker-alt prefix light-blue-text text-darken-4"></i>
 						<input id="business_address_line_3" name="business_address_line_3" value="{{ business_name.business_address_line_3 }}" type="text" class="validate" required>
 						<label for="business_address_line_3">Business Address Line 3</label>
 					</div>
                 </div>
-                <!-- business email address -->
-                <div class="row">
-					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-						<input id="business_email_address" name="business_email_address" value="{{ business_name.business_email_address }}" type="email" class="validate" required>
-						<label for="business_email_address">Email Address</label>
-					</div>
-                </div>
                 <!-- facebook -->
                 <div class="row">
-					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+					<div class="input-field col s12 m4">
+						<i class="fab fa-facebook-f prefix light-blue-text text-darken-4"></i>
 						<input id="facebook" name="facebook" type="text" value="{{ business_name.facebook }}" class="validate">
 						<label for="facebook">Facebook</label>
 					</div>
-                </div>
+                
                 <!-- instagram -->
-                <div class="row">
-					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+					<div class="input-field col s12 m4">
+						<i class="fab fa-instagram prefix light-blue-text text-darken-4"></i>
 						<input id="instagram" name="instagram" type="text" value="{{ business_name.instagram }}" class="validate">
 						<label for="instagram">Instagram</label>
 					</div>
-                </div>
+               
                 <!-- twitter -->
-                <div class="row">
-					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+                
+					<div class="input-field col s12 m4">
+						<i class="fab fa-twitter prefix light-blue-text text-darken-4"></i>
 						<input id="twitter" name="twitter" type="text" value="{{ business_name.twitter }}" class="validate">
 						<label for="twitter">Twitter</label>
 					</div>
@@ -95,7 +92,7 @@
                 <!-- website url -->
                 <div class="row">
 					<div class="input-field col s12">
-						<i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
+						<i class="fas fa-globe prefix light-blue-text text-darken-4"></i>
 						<input id="website_url" name="website_url" type="text" value="{{ business_name.website_url }}" class="validate">
 						<label for="website_url">Website</label>
 					</div>
@@ -111,31 +108,36 @@
 				</div>
 				<!-- products and service -->
 				<div class="row">
+					<h6>What Products/Services are you known for? (Choose 3)</h6>
 					<div class="input-field col s12 m4">
 						<i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
-						<input id="prodserv_1" name="prodserv_1" value="{{ business_name.prodserv_1 }}" type="text" required>
-						<label for="prodserv_1">Product/Service 1</label>
+						<input id="prodserv_1" name="prodserv_1" type="text" value="{{ business_name.prodserv_1 }}" required>
+						<label for="prodserv_1">1</label>
 					</div>
 					<div class="input-field col s12 m4">
 						<i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
-						<input id="prodserv_2" name="prodserv_2" value="{{ business_name.prodserv_2 }}" type="text" required>
-						<label for="prodserv_2">Product/Service 2</label>
+						<input id="prodserv_2" name="prodserv_2" type="text" value="{{ business_name.prodserv_2 }}" required>
+						<label for="prodserv_2">2</label>
 					</div>
 					<div class="input-field col s12 m4">
 						<i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
-						<input id="prodserv_3" name="prodserv_3" value="{{ business_name.prodserv_3 }}" type="text" required>
-						<label for="prodserv_3">Product/Service 3</label>
+						<input id="prodserv_3" name="prodserv_3" type="text" value="{{ business_name.prodserv_3 }}" required>
+						<label for="prodserv_3">3</label>
 					</div>
 				</div>
-                <!-- logo -->
-                <div class="row">
-					<div class="col s12">
-						<input id="logo" name="logo" type="file" value="{{ business_name.logo }}" class="validate">
-						<label for="logo">Update Logo</label>
+				<!-- logo -->
+				<div class="logo-add">
+					<div class="row">
+						<div class="input-field col s12">
+							<i class="fas fa-image prefix light-blue-text text-darken-4"></i>
+							<input id="logo" name="logo" type="file" value="{{ business_name.logo }}" class="validate">
+							<label for="logo">Update Logo (required)</label>
+						</div>
 					</div>
-                </div>
-				 <!-- password -->
-				 <div class="row">
+				</div>
+				<br>
+                <!-- password -->
+				<div class="row">
                     <div class="input-field col s12">
 						<i class="fas fa-user-lock prefix light-blue-text text-darken-4"></i>
                         <input id="password" name="password" type="password" minlength="5"
