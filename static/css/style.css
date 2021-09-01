@@ -19,6 +19,19 @@ body {
     padding: 0;
 }
 
+.nav-extended .nav-wrapper a {
+  font-family: 'Prompt', sans-serif;
+}
+
+.nav-extended .nav-wrapper .sidenav-trigger {
+  font-family: 'Prompt', sans-serif;
+}
+
+.nav-extended .nav-wrapper .brand-logo {
+  margin-left: 2%;
+}
+
+
 .nav-wrapper {
   background-color: rgb(40,184,115);
 }
@@ -95,7 +108,8 @@ input#rate-5:checked ~ label{
 
 .offer-container {
   border: 1px solid black;
-  height: 25vh;
+  height: 35vh;
+  min-height: 25vh;
   margin-top: 1%;
   }
 
@@ -207,6 +221,13 @@ div .col .social-media-container {
 
 .search-button button {
   height: 100%;
+  padding: 0 4%;
+  
+}
+
+.search-button button i {
+  margin: 0 auto;
+  
 }
 
 input[type="file"] {

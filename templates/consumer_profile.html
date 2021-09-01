@@ -8,19 +8,22 @@
                     <img src="{{ url_for('file', filename=consumer_user['profile_pic'] )}}">
                 </div>
                 <div class="col s12 m7 l7 push-l1 push-m1 consumer-details card-panel">
-                    <div class="col s12 m6">
+                    <div class="col s12">
                         <h3>{{ consumer_user.consumer_name.capitalize() }}</h3>
-                        <div class="address">
-                            <p>Address Line 1: {{ consumer_user.consumer_address_line_1 }}</p>
-                            <p>Address Line 2: {{ consumer_user.consumer_address_line_2 }}</p>
-                            <p>Address Line 3: {{ consumer_user.consumer_address_line_3 }}</p>
-                        </div>
+                        <a href="{{ url_for('edit_consumer_profile', consumer_email_address=session['consumer']) }}" class="btn-small light-blue lighten-1">Edit</a>
+                        <br>
                     </div>
                     <div class="col s12 m6">
                         <h4>Contact Info</h4>
-                        <div class="col m6">
-                            <div class="cont-number">{{ consumer_user.consumer_contact_number }}</div>
-                            <div class="email-address">{{ consumer_user.consumer_email_address }}</div>
+                        <div class="col s12">
+                            
+                            <p><i class="fas fa-map-marker-alt prefix light-blue-text text-darken-4"></i> Address Line 1: {{ consumer_user.consumer_address_line_1 }}</p>
+                            <p><i class="fas fa-map-marker-alt prefix light-blue-text text-darken-4"></i> Address Line 2: {{ consumer_user.consumer_address_line_2 }}</p>
+                            <p><i class="fas fa-map-marker-alt prefix light-blue-text text-darken-4"></i> Address Line 3: {{ consumer_user.consumer_address_line_3 }}</p>
+                        
+                            
+                            <p class="cont-number"><i class="fas fa-phone-alt prefix light-blue-text text-darken-4"></i> {{ consumer_user.consumer_contact_number }}</p>
+                            <p class="email-address"><i class="fas fa-at prefix prefix light-blue-text text-darken-4"></i> {{ consumer_user.consumer_email_address }}</p>
                         </div>
                     </div>
                 </div>

@@ -2,15 +2,20 @@
     {% block content %}
 
         <h3 class="center-align">Consumer Sign Up</h3>
+        <div class="row">
+            <a class="col s12 m6 offset-m3 btn-large red text-shadow" href="{{ url_for('consumer_profile', consumer_email_address=session['consumer'])  }}">
+                Back to Profile <i class="fas fa-sign-in-alt"></i>
+            </a>
+        </div>
 
             <div class="row">
-            <form class="col s12 m8 offset-m2" method="POST" enctype="multipart/form-data" action="{{ url_for('consumer_signup') }}">
+            <form class="col s12 m8 offset-m2" method="POST" enctype="multipart/form-data" action="{{ url_for('edit_consumer_profile', consumer_email_address=session['consumer']) }}">
                 <div class="card-panel">
                     <!-- Sign Up name -->
                     <div class="row">
                         <div class="input-field col s12 m6">
                             <i class="fas fa-user-plus prefix light-blue-text text-darken-4"></i>
-                            <input id="consumer_name" name="consumer_name" type="text" class="validate" required>
+                            <input id="consumer_name" name="consumer_name" value="{{ consumer_email_address.consumer_name }}" type="text" class="validate" required>
                             <label for="consumer_name">Your full name</label>
                         </div>
                    
@@ -18,7 +23,7 @@
                     
                         <div class="input-field col s12 m6">
                             <i class="fas fa-calendar-alt prefix light-blue-text text-darken-4"></i>
-                            <input id="consumer_dob" name="consumer_dob" type="text" class="datepicker validate">
+                            <input id="consumer_dob" name="consumer_dob" type="text" value="{{ consumer_email_address.consumer_dob }}" class="datepicker validate">
                             <label for="consumer_dob">Your Date of Birth (optional)</label>
                         </div>
                     </div> 
@@ -26,13 +31,13 @@
                     <div class="row">
                         <div class="input-field col s12 m6">
                             <i class="fas fa-phone-alt prefix light-blue-text text-darken-4"></i>
-                            <input id="consumer_contact_number" name="consumer_contact_number" type="number" class="validate" required>
+                            <input id="consumer_contact_number" name="consumer_contact_number" type="number" value="{{ consumer_email_address.consumer_contact_number }}" class="validate" required>
                             <label for="consumer_contact_number">Contact Number</label>
                         </div>
                     <!-- consumer email address --> 
                         <div class="input-field col s12 m6">
                             <i class="fas fa-at prefix prefix light-blue-text text-darken-4"></i>
-                            <input id="consumer_email_address" name="consumer_email_address" type="email" class="validate" required>
+                            <input id="consumer_email_address" name="consumer_email_address" type="email" value="{{ consumer_email_address.consumer_email_address }}" class="validate" required>
                             <label for="consumer_email_address">Email Address</label>
                         </div>
                     </div>
@@ -40,7 +45,7 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <i class="fas fa-map-marker-alt prefix light-blue-text text-darken-4"></i>
-                            <input id="consumer_address_line_1" name="consumer_address_line_1" type="text" class="validate">
+                            <input id="consumer_address_line_1" name="consumer_address_line_1" value="{{ consumer_email_address.consumer_address_line_1 }}" type="text" class="validate">
                             <label for="consumer_address_line_1">Consumer Address Line 1 (optional)</label>
                         </div>
                     </div>
@@ -48,7 +53,7 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <i class="fas fa-map-marker-alt prefix light-blue-text text-darken-4"></i>
-                            <input id="consumer_address_line_2" name="consumer_address_line_2" type="text" class="validate">
+                            <input id="consumer_address_line_2" name="consumer_address_line_2" value="{{ consumer_email_address.consumer_address_line_2 }}" type="text" class="validate">
                             <label for="consumer_address_line_2">Consumer Address Line 2 (optional)</label>
                         </div>
                     </div> 
@@ -56,7 +61,7 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <i class="fas fa-map-marker-alt prefix light-blue-text text-darken-4"></i>
-                            <input id="consumer_address_line_3" name="consumer_address_line_3" type="text" class="validate">
+                            <input id="consumer_address_line_3" name="consumer_address_line_3" value="{{ consumer_email_address.consumer_address_line_3 }}" type="text" class="validate">
                             <label for="consumer_address_line_3">Consumer Address Line 3 (optional)</label>
                         </div>
                     </div> 
@@ -66,7 +71,7 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <i class="fas fa-image prefix light-blue-text text-darken-4"></i>
-                                <input id="profile_pic" name="profile_pic" type="file">
+                                <input id="profile_pic" name="profile_pic" value="{{ consumer_email_address.profile_pic }}" type="file">
                                 <label for="profile_pic">Your Profile picture (optional)</label>
                             </div>
                         </div>

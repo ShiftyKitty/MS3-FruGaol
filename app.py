@@ -465,7 +465,6 @@ def edit_offer(offer_id):
         mongo.db.offers.update({"_id": ObjectId(offer_id)}, edit)
         flash("Offer Successfully Edited")
 
-    
     return render_template("edit_offer.html", offer=offer)
 
 
@@ -518,6 +517,41 @@ def search_business():
 def businesses():
     businesses = mongo.db.business_users.find()
     return render_template("businesses.html", businesses=businesses)
+
+
+@app.route("/edit_consumer_profile/<consumer_email_address>", methods=["GET", "POST"])
+def edit_consumer_profile(consumer_email_address):
+    if request.method == "POST":
+        # profile pic saved to mongodb
+        profile_pic = request.files["profile_pic"]
+        
+        if "filesize" in request.cookies:
+            
+            if not allowed_img_filesize(request.cookies["filesize"]):
+                flash("Filesize exceeded maximum limit")
+                return redirect(url_for("consumer_signup"))
+                
+            if allowed_img(profile_pic.filename):
+                mongo.save_file(secure_filename(profile_pic.filename), profile_pic)
+                print("Profile Pic saved")
+            
+        edit_details = {
+            "consumer_name": request.form.get("consumer_name"),
+            "consumer_address_line_1": request.form.get("consumer_address_line_1"),
+            "consumer_address_line_2": request.form.get("consumer_address_line_2"),
+            "consumer_address_line_3": request.form.get("consumer_address_line_3"),
+            "consumer_contact_number": request.form.get("consumer_contact_number"),
+            "consumer_email_address": request.form.get("consumer_email_address").lower(),
+            "consumer_dob": request.form.get("consumer_dob"),
+            "profile_pic": profile_pic.filename,
+            "consumer_password": generate_password_hash(request.form.get("consumer_password"))
+        }
+
+        mongo.db.consumer_users.update({"consumer_email_address": session["consumer"]}, edit_details)
+        flash("Profile Successfully Edited")
+
+    consumer_email_address = mongo.db.consumer_users.find_one({"consumer_email_address": session["consumer"]})
+    return render_template("edit_consumer_profile.html", consumer_email_address=consumer_email_address)
 
 
 if __name__ == "__main__":
