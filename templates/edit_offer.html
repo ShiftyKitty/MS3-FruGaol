@@ -2,6 +2,11 @@
 {% block content %}
 
 <h3 class="center-align">Edit your Offer!</h3>
+<div class="row">
+    <a class="col s12 m6 offset-m3 btn-large red text-shadow" href="{{ url_for('offer', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">
+        Back to Offer <i class="fas fa-sign-in-alt"></i>
+    </a>
+</div>
 
 <div class="row card-panel grey lighten-5">
     <form class="col s12" method="POST" enctype="multipart/form-data" action="{{ url_for('edit_offer', offer_id=offer._id) }}">

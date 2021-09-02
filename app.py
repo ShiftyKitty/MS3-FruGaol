@@ -73,8 +73,13 @@ def business_signup():
                 flash("No Business Logo Detected. Please add Logo and try again")
                 return redirect(url_for("business_signup"))
 
+            if ' ' in logo.filename:
+                flash("Please remove all gaps from Logo filename and try again")
+                return redirect(url_for("business_signup"))
+
             if allowed_img(logo.filename):
-                mongo.save_file(secure_filename(logo.filename), logo)
+                filename = secure_filename(logo.filename)
+                mongo.save_file(filename, logo)
                 print("Logo saved")
             else:
                 flash("File extension is not permitted. Logo upload must be 'JPEG', 'JPG', 'PNG', 'JFIF', 'WEBP'")
@@ -135,6 +140,10 @@ def consumer_signup():
                 if not allowed_img_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
                     return redirect(url_for("consumer_signup"))
+
+            if ' ' in profile_pic.filename:
+                flash("Please remove all gaps from Profile filename and try again")
+                return redirect(url_for("consumer_signup"))
 
             if allowed_img(profile_pic.filename):
                 mongo.save_file(
@@ -300,6 +309,11 @@ def edit_profile(business_name):
                 return redirect(url_for(
                     "edit_profile", business_name=business_name))
 
+            if ' ' in logo.filename:
+                flash("Please remove all gaps from Logo filename and try again")
+                return redirect(url_for(
+                    "edit_profile", business_name=business_name))
+
             if allowed_img(logo.filename):
                 mongo.save_file(secure_filename(logo.filename), logo)
                 print("Logo saved")
@@ -404,6 +418,10 @@ def create_offer():
                 flash("No filename. Please name file and try again")
                 return redirect(url_for("create_offer"))
 
+            if ' ' in offer_img.filename:
+                flash("Please remove all gaps from Image filename and try again")
+                return redirect(url_for("create_offer"))
+
             if allowed_img(offer_img.filename):
                 mongo.save_file(secure_filename(offer_img.filename), offer_img)
                 print("Offer Image saved")
@@ -472,6 +490,10 @@ def edit_offer(offer_id):
 
             if offer_img.filename == '':
                 flash("No filename. Please name file and try again")
+                return render_template("edit_offer.html", offer=offer)
+
+            if ' ' in offer_img.filename:
+                flash("Please remove all gaps from Image filename and try again")
                 return render_template("edit_offer.html", offer=offer)
 
             if allowed_img(offer_img.filename):
@@ -563,10 +585,15 @@ def edit_consumer_profile(consumer_email_address):
                 return redirect(url_for(
                     "edit_consumer_profile", consumer_email_address=consumer_email_address))
 
-            if allowed_img(profile_pic.filename):
-                mongo.save_file(secure_filename(
-                    profile_pic.filename), profile_pic)
-                print("Profile Pic saved")
+        if ' ' in profile_pic.filename:
+            flash("Please remove all gaps from Profile filename and try again")
+            return redirect(url_for(
+                "edit_consumer_profile", consumer_email_address=consumer_email_address))
+
+        if allowed_img(profile_pic.filename):
+            mongo.save_file(secure_filename(
+                profile_pic.filename), profile_pic)
+            print("Profile Pic saved")
 
         edit_details = {
             "consumer_name": request.form.get("consumer_name"),

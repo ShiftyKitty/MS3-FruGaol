@@ -14,7 +14,7 @@ This is what has comeback:
 
 - Logo saved not appearing on business profile.
 - After testing further the issue is that image uploaded had spaces in filename which has caused an issue materializng from DB. 
-- Fix:
+- Fix: Have introduced new if statement that initiates flash message telling user that filenames must not include any gaps. Tested and working.
 
 #### Offer Image Extension not allowed
 ![Willy-offer_img_issue](testing_img_docs/willy-offerimg_extensionnotallowed.png)
