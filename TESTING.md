@@ -35,7 +35,7 @@ This is what has comeback:
 ![Colm-text_align_issue](testing_img_docs/colm-text_align_issue.jpg)
 
 - Text has not scaled down properly for mobile and circles surrounding social media icons have gone wonky.  
-- Fix: 
+- Fix: Above issues have been fixed through better grid management and centering a div
 
 
 #### Text Overlap Issue - Offer Profile
