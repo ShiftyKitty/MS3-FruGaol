@@ -42,4 +42,4 @@ This is what has comeback:
 ![Colm-text_overlap_issue](testing_img_docs/colm-text_overlap.jpg)
 
 - Text has not scaled down properly for mobile and causing overlap. 
-- Fix:
+- Fix: Now fixed. Better implemented the grid system for materialize to fix

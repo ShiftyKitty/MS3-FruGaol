@@ -63,49 +63,52 @@
                 <h5 class="underline">Reviews</h5>
             </div>
             {% if session.consumer %}
-                <h6>Leave a Review</h6>
-                <form class="col s12 center-align" method="POST" enctype="multipart/form-data" action="{{ url_for('create_review', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">
-                    <div class="row">
-                        <div class="star-widget">
-                            <input type="radio" name="rate" id="rate-5" value="5" required>
-                            <label for="rate-5" class="fas fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4" value="4" required>
-                            <label for="rate-4" class="fas fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3" value="3" required>
-                            <label for="rate-3" class="fas fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2" value="2" required> 
-                            <label for="rate-2" class="fas fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1" value="1" required>
-                            <label for="rate-1" class="fas fa-star"></label>
+                
+                <div class="row card-panel">
+                    <h6>Leave a Review</h6>
+                    <form class="col s12 center-align" method="POST" enctype="multipart/form-data" action="{{ url_for('create_review', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">
+                        <div class="row center-align">
+                            <div class="star-widget">
+                                <input type="radio" name="rate" id="rate-5" value="5" required>
+                                <label for="rate-5" class="fas fa-star"></label>
+                                <input type="radio" name="rate" id="rate-4" value="4" required>
+                                <label for="rate-4" class="fas fa-star"></label>
+                                <input type="radio" name="rate" id="rate-3" value="3" required>
+                                <label for="rate-3" class="fas fa-star"></label>
+                                <input type="radio" name="rate" id="rate-2" value="2" required> 
+                                <label for="rate-2" class="fas fa-star"></label>
+                                <input type="radio" name="rate" id="rate-1" value="1" required>
+                                <label for="rate-1" class="fas fa-star"></label>
+                            </div>
+                            <div class="input-field col s12 m6 l8">
+                                <textarea id="consumer_review" name="consumer_review" class="materialize-textarea" data-length="200"></textarea>
+                                <label for="consumer_review">Your Review</label>
+                            </div>
                         </div>
-                        <div class="input-field col s12 m6 l8">
-                            <textarea id="consumer_review" name="consumer_review" class="materialize-textarea" data-length="200"></textarea>
-                            <label for="consumer_review">Your Review</label>
+                        <div class="row">
+                            <div class="col s12 center-align">
+                                <button type="submit" class="btn-large light-blue darken-1 text-shadow">
+                                    Submit Review <i class="fas fa-plus-square right"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12 center-align">
-                            <button type="submit" class="btn-large light-blue darken-1 text-shadow">
-                                Submit Review <i class="fas fa-plus-square right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             {% endif %}
 
             {% for review in reviews %}
                 {% if offer._id|string == review.offer_id|string %}
                         <div class="row">
                             <div class="col s12 center-align card-panel">
-                                <div class="col s4">
+                                <div class="col s12 m4">
                                     <h6>Reviewed By</h6>
                                     {{ review.created_by }}
                                 </div>
-                                <div class="col s4"> 
+                                <div class="col s12 m4"> 
                                     <h6>Review</h6>
                                     {{ review.consumer_review }}
                                 </div> 
-                                <div class="col s4">
+                                <div class="col s12 m4">
                                     <h6>Rating</h6>
                                     {{ review.rate }} <i class="fas fa-star"></i>
                                 </div>
