@@ -69,13 +69,18 @@
                     <!-- profile picture -->
                     <div class="logo-add">
                         <div class="row">
-                            <div class="input-field col s12">
+                            <div class="input-field col s12 l6">
                                 <i class="fas fa-image prefix light-blue-text text-darken-4"></i>
                                 <input id="profile_pic" name="profile_pic" value="{{ consumer_email_address.profile_pic }}" type="file">
                                 <label for="profile_pic">Your Profile picture (optional)</label>
                             </div>
+                            <div class="image-preview col s12 l5" id="imagePreview">
+                                <img src="" alt="Image Preview" class="image-preview__image">
+                                <span class="image-preview__default-text">Image Preview</span>
+                            </div>
                         </div>
                     </div>
+
                     <br>
                     <!-- password -->
                     <div class="row">

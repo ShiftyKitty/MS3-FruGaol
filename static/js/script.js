@@ -54,3 +54,90 @@ const editBtn = document.querySelector(".edit");
     }
     return false;
 }
+
+
+let offerImg = document.getElementById("offer_img");
+let Logo = document.getElementById("logo");
+const profilePic = document.getElementById("profile_pic");
+
+const previewContainer = document.getElementById("imagePreview");
+const previewImage = previewContainer.querySelector(".image-preview__image"); 
+const previewDefaultText = previewContainer.querySelector(".image-preview__default-text"); 
+
+
+console.log(offerImg)
+console.log(Logo)
+console.log(profilePic)
+document.addEventListener("DOMContentLoaded", function() {
+Logo.addEventListener("change", function() {
+    const file = this.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        previewDefaultText.style.display = "none";
+        previewImage.style.display = "block";
+
+        reader.addEventListener("load", function() {
+            console.log(this);
+            previewImage.setAttribute("src", this.result);
+        });
+
+        reader.readAsDataURL(file);
+    } else {
+        previewDefaultText.style.display = null;
+        previewImage.style.display = null;
+        previewImage.setAttribute("src", "");
+    }
+});
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+offerImg.addEventListener("change", function() {
+    const file = this.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        previewDefaultText.style.display = "none";
+        previewImage.style.display = "block";
+
+        reader.addEventListener("load", function() {
+            console.log(this);
+            previewImage.setAttribute("src", this.result);
+        });
+
+        reader.readAsDataURL(file);
+    } else {
+        previewDefaultText.style.display = null;
+        previewImage.style.display = null;
+        previewImage.setAttribute("src", "");
+    }
+});
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+profilePic.addEventListener("change", function() {
+    const file = this.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        previewDefaultText.style.display = "none";
+        previewImage.style.display = "block";
+
+        reader.addEventListener("load", function() {
+            console.log(this);
+            previewImage.setAttribute("src", this.result);
+        });
+
+        reader.readAsDataURL(file);
+    } else {
+        previewDefaultText.style.display = null;
+        previewImage.style.display = null;
+        previewImage.setAttribute("src", "");
+    }
+});
+});
