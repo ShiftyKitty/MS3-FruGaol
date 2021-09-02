@@ -292,18 +292,21 @@ def edit_profile(business_name):
 
                 if not allowed_img_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit")
-                    return redirect(url_for("business_signup"))
+                    return redirect(url_for(
+                        "edit_profile", business_name=business_name))
 
             if logo.filename == '':
                 flash("No filename. Please name file and try again")
-                return redirect(url_for("business_signup"))
+                return redirect(url_for(
+                    "edit_profile", business_name=business_name))
 
             if allowed_img(logo.filename):
                 mongo.save_file(secure_filename(logo.filename), logo)
                 print("Logo saved")
             else:
                 flash("That file extension is not permitted")
-                return redirect(url_for("business_signup"))
+                return redirect(url_for(
+                    "edit_profile", business_name=business_name))
 
         # check if business_name already exists in db
         edit_details = {
@@ -557,7 +560,8 @@ def edit_consumer_profile(consumer_email_address):
 
             if not allowed_img_filesize(request.cookies["filesize"]):
                 flash("Filesize exceeded maximum limit")
-                return redirect(url_for("consumer_signup"))
+                return redirect(url_for(
+                    "edit_consumer_profile", consumer_email_address=consumer_email_address))
 
             if allowed_img(profile_pic.filename):
                 mongo.save_file(secure_filename(
