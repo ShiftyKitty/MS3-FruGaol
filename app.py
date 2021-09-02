@@ -18,7 +18,7 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
 
 app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
-app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "JFIF"]
+app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "JFIF", "WEBP"]
 
 
 mongo = PyMongo(app)
@@ -66,18 +66,18 @@ def business_signup():
             if "filesize" in request.cookies:
 
                 if not allowed_img_filesize(request.cookies["filesize"]):
-                    flash("Filesize exceeded maximum limit")
+                    flash("Logo file too big. Must be under 500KB")
                     return redirect(url_for("business_signup"))
 
             if logo.filename == '':
-                flash("No filename. Please name file and try again")
+                flash("No Business Logo Detected. Please add Logo and try again")
                 return redirect(url_for("business_signup"))
 
             if allowed_img(logo.filename):
                 mongo.save_file(secure_filename(logo.filename), logo)
                 print("Logo saved")
             else:
-                flash("That file extension is not permitted")
+                flash("File extension is not permitted. Logo upload must be 'JPEG', 'JPG', 'PNG', 'JFIF', 'WEBP'")
                 return redirect(url_for("business_signup"))
 
         # check if business_name already exists in db
@@ -85,7 +85,7 @@ def business_signup():
             {"business_name": request.form.get("business_name").upper()})
 
         if existing_user:
-            flash("business_name already exists")
+            flash("Business Name already exists. Please try again with different Business Name.")
             return redirect(url_for("business_signup"))
 
         business_signup = {

@@ -104,6 +104,14 @@ blockquote {
   border-left: 7px solid rgb(40,184,115);
 }
 
+.contact-info {
+  margin: 0 auto;
+}
+
+.website a {
+  font-size: 120%;
+}
+
 .logo-container {
   height: 25vh;
   border: 1px solid black;
@@ -116,21 +124,47 @@ blockquote {
   object-fit: cover;
 }
 
-.social-media i {
-  font-size: 120%;
+.social-media-container {
+  position: relative;
+  border: 1px solid black;
+  border-radius: 50%;
+  height: 5.7vh;
+  width: 5.7vh;
 }
 
-.social-media div {
+.social-media-container i {  
+  margin: auto;
+  position: relative;
+  bottom: -25%;
+  left: 0%;
+  font-size: 150%;
+  }
+
+
+
+/* .social-media a {
+  position: relative;
+  text-align: center;
+  bottom: 0;
+  margin: auto;
+} */
+
+/* .social-media div {
+  position: relative;
   border: 1px solid black;
   border-radius: 50%;
   padding: 0%;
   float: right;
-}
+} */
 
 div .col .social-media-container {
-  padding: 4%;
-  margin: 8%;
+  position: relative;
+  /* height: 8vh;
+  width: 8vh; */
+  margin: 7%;
 }
+
+
 
 .contact-info p {
   font-size: 120%;
@@ -138,6 +172,7 @@ div .col .social-media-container {
 
 .contact-info .website .prodServ {
   font-size: 120%;
+  width: 100%;
 }
 
 .prodServ p {
