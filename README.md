@@ -21,6 +21,34 @@ I want this to be able to take over as the main SME to customer directory/databa
 - [Credits](#credits) <br>
 
 
+## Message to Examiner
+
+Hello.
+
+This app takes 2 different users. Business User and Consumer User. I would suggest going and making a profile for both and test the site but if you are under time issues, feel free to login in using the following. 
+
+Business Name: MR CLEANING SERVICE <br>
+Password: Test1
+
+Consumer Email Address: cathalpmcgahan@gmail.com <br>
+Password: Test1
+
+The CRUD functionality is completed by the following:
+
+- Create: Create an Offer as a Business User
+- Read: Offer then gets posted to Home/Offers page, where it can be read.
+- Update: Find your offer either through Home page or My Offers in navbar. Select offer and Edit offer.
+- Delete: To delete select Offer Finished. 
+
+In addition, as a Consumer user you can leave reviews under offers. Not full CRUD but neat feature nonetheless and utilizes seperate Review Collection in DB.
+
+Complete Sitemap for Project Frugaol can be found below. It might help your navigation through the app. 
+
+All the Best <br>
+Cathal
+
+![sitemap](readme_docs/sitemap-frugaol.png)
+
 ## UX
 
 The UX for this project will be investigated through the following 5 planes:
@@ -158,6 +186,11 @@ Different Pages:
         - Logout page becomes available
 
 
+The below image provides the sitemap to Project FruGaol and illustrates the interconnecting parts:
+
+![sitemap](readme_docs/sitemap-frugaol.png)
+
+
 ### Skeleton Plane:
 Mobile Wireframes
 ![Mobile](wireframes/MS3-Mob-Wireframes.PNG)
@@ -169,46 +202,99 @@ Tablet Wireframes
 ![Tablet](wireframes/MS3-Tablet-Wireframes.PNG)
 
 
+In addition to this, the following database mockups were done through [LucidChart](https://www.lucidchart.com/)
+
+Database Mockups
+![DB](readme_docs/MS3_Database_Schema.png)
+
+
 ### The Surface plane:
+
+- Font: Fonts used were Prompt, Roboto and Poppins
+
+- Color: Main colours used were a Money Green and White. 
+
+- Any images used were from clients from previous jobs (where permission was requested and granted)
+
+- Icons were obtained from Font Awesome
 
 ## Features:
 <hr>
+
+#### Final project features include:
+- (1) MarketPlace page,
+    - (1.1.1) Options to search solely for services or products
+- (2) Business Profile Page 
+    - (2.1) One page has all info and 
+    - (2.2) other page shows all deals sent from business (similar look to Market place page but one photo rather than 2
+- (3) Consumer Profile Page
+- (4) Specific Item/Service pages
+    - Created by the business owner. Like a sales post. 
+    - Has details of product/service. Same page opens through from marketplace and business page. (2 ways to arrive at)
+    - Edit/Delete functionality for businesses to delete their offers from MarketPlace. 
+- (5) Sign Up/Login page
+    - First page shown when new user comes to app. 
+        - Are you looking for business? 
+            - Brings through to Business Sign Up 
+        - Are you looking for deals?
+            - Brings through to user/customer sign up
+        - Sign In
+    - If remembers login, goes straight through to MarketPlace page.
+        - Logout page becomes available
+
+- Responsive across all devices
+- Star rating and review area for consumers to leave reviews on business offers. 
 
 ###
 
 ## Technologies Used 
 <hr>
 
+Project Frugaol made use of the following technologies, languages and frameworks:
+
+- HTML: To create structure of site
+
+- CSS: To add styling and substance to project
+
+- JavaScript: To bring front end interativity to project.
+
+- jQuery: A javascript library, used in conjunction with JavaScript to help deliver on set out features and goals when it comes to adding interactivity to the site.
+
+- Python: To access MongoDB, Flask and other frameworks and to develop the back end of the site. 
+
+- MongoDB: Database used to store all business, consumer, offer and review information. 
+
+- Flask: Framework used in conjunction with Python to allow CRUD functionailty take place through use of JINJA to allow easier transfer of information from MongoDB to app.  
+
 <br>
 
 ## Testing
 <hr>
 
-Testing file can be found through the following [link](TESTING.md)
+Testing file can be found through the following [link](TESTING.md).
 
 <br>
 
 ## Deployment
 <hr>
 
- was developed using Gitpod IDE, committed to git and pushed to GitHub using the built in function within gitpod. 
+This was developed using Gitpod IDE, committed to git and pushed to GitHub using the built in function within gitpod. 
 
 To deploy this page to GitHub pages from its GitHub repository, the following steps were taken:
 
 1. Log into GitHub.
-2. From list of repos on screen, select [ShiftyKitty/MS2-Smeach-Cuimhne-Game](https://github.com/ShiftyKitty/MS2-Smeach-Cuimhne-Game)
+2. From list of repos on screen, select [ShiftyKitty/MS3-FruGaol](https://github.com/ShiftyKitty/MS3-FruGaol)
 3. From the menu items near the top of the page, select Settings.
 4. Scroll to GitHub Pages section. Alternatively select Pages tab on left hand side of screen in Desktop.
 5. Under Source click the drop-down menu labelled None and select Master Branch
 6. On selecting Master Branch the page is automatically refreshed. If this does not occur refresh the page. 
 7. Go back to GitHub Pages section to retrieve the link to the deployed website.
 
-At the moment of submitting this Milestone project, the Development Branch and Master Branch are identical. 
 
 ### How to run this project locally
 To clone this project from Github:
 
-1. Follow this link to [ShiftyKitty/MS2-Smeach-Cuimhne-Game](https://github.com/ShiftyKitty/MS2-Smeach-Cuimhne-Game)
+1. Follow this link to [ShiftyKitty/MS3-FruGaol](https://github.com/ShiftyKitty/MS3-FruGaol)
 2. Above the list of files, click Code.
 3. In the Clone with HTTPs section, copy the clone URL for the repository. 
 4. In your local IDE open Git Bash.
@@ -216,12 +302,65 @@ To clone this project from Github:
 6. Type git clone and paste the URL copied in Step 3.
 7. Press Enter. Your local clone will now be created. 
 
+
+### How to deploy this project through Heroku
+To deploy to Heroku, take the following steps:
+
+1. Create a requirements.txt file using the terminal command pip freeze > requirements.txt
+2. Create a Procfile with the terminal command echo web: python app.py > Procfile
+3. git add and git commit the new requirements and Procfile and then git push the project to Github. 
+4. Create a new app on the [Heroku website](https://www.heroku.com/) by clicking the "New" button in your dashboard. Give it a name and set the region to Europe.
+5. From heroku dashboard of your newly created application, click on "Deploy" > "Deployment method" and select Github. 
+6. Confirm the linking of the heroku app to the correct Github repository. 
+7. In the heroku dashboard for the application, click on "Settings" > "Reveal Config Vars".
+8. Set the following config vars:
+
+Key | Value 
+--- | --- 
+DEBUG | FALSE
+IP | 0.0.0.0
+MONGO_URI | mongodb+srv://< username >:< password >@< clustername >-jjbdh.mongodb.net/< database_name >?retryWrites=true&w=majority
+PORT | 5000
+SECRET_KEY | < your_secret_key >
+
+- To get your own MONGO_URI read the MongoDB Atlas documentation [here](https://docs.atlas.mongodb.com/)
+
+9. In the heroku dashboard, click "Deploy"
+10. In the "Manual Deployment" section of this page make sure master/main branch is selected and then click "Deploy Branch".
+11. The site is now successfully deployed through Heroku. 
+
+
 ## Credits
 <hr>
 
 ### Content
 
+- Code used for this project for the CRUD functionality was mainly taken from notes from the [Code Institute](https://codeinstitute.net/)
 
+- Image file upload python code was taken from the following sources:
+    - [Pretty Printed](https://www.youtube.com/watch?v=DsgAuceHha4)
+    - [Cairocoders](https://www.youtube.com/watch?v=I9BBGulrOmo)
+    - [CyberWolve](https://www.youtube.com/watch?v=XCRUzPi0X0Q)
+    - [Julian Nash](https://youtu.be/6WruncSoCdI)
+    - [Flask](https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/)
+
+<br>
+
+- Javascript and CSS for Image preview on sign up came from [dcode](https://youtu.be/VElnT8EoEEM)
+
+- Javascript and CSS for Star Widget on Review came from [Coding Nepal Web](https://www.codingnepalweb.com/star-rating-html-css-javascript/)
+
+- Various error messages were understood and solved by using [StackOverflow](https://stackoverflow.com/)
+
+### Media
+- All icons used on site were taken from [FontAwesome](https://fontawesome.com/)
+- All images stored in MongoDB were taken from personal computer from various clients whose permission was requested and granted. 
 
 ### Acknowledgements 
+
+- Would like to thank all friends and family who helped test this app and report back usability issues and technical bugs. 
+
+- The name FruGaol comes from the word "Frugal" meaning thrifty or costing little and the Irish word "Gaol" which translates to relationships. Together it comes to Thrifty Relationships which was the inspiration behind this app and its purpose of connecting Businesses and Consumers through special deals and offers. 
+
+- Many features were left out due to time constraints and lack of skill/knowledge however I will be building upon what is here in this project over time. 
 
