@@ -26,7 +26,7 @@
                     {% for offer in offers %}
                         <div class="col s12 m4 l3 offer-container">
                             <div class="offer-window">
-                                <img src="{{ url_for('file', filename=offer['offer_img'] )}}">
+                                <img src="{{ url_for('file', filename=offer['offer_img'] )}}" alt="offer_img">
                             </div>
                             <div class="underline"><strong><a href="{{ url_for('offer', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">{{ offer.offer_name }}</a></strong></div>
                             <div>Old Price: <span class="cross-out">{{ offer.old_price }}</span></div>

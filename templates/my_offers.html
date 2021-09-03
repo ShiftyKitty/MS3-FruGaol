@@ -13,7 +13,7 @@
                         {% if session.user|lower == offer.created_by|lower %}
                             <div class="col s12 my-offer-container">
                                 <div class="my-offer-window">
-                                    <img src="{{ url_for('file', filename=offer['offer_img'] )}}">
+                                    <img src="{{ url_for('file', filename=offer['offer_img'] )}}" alt="my_offers">
                                 </div>
                                 <p class="underline">
                                     <strong><a href="{{ url_for('offer', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">{{ offer.offer_name }}</a></strong>

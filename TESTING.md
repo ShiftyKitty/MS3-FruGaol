@@ -14,6 +14,11 @@ All codes used will be put through the relevant code validators once all user te
 
 ## Code Validation
 
+- CSS passed through [W3C CSS Validator](https://jigsaw.w3.org/css-validator/validator) with no Errors found
+
+- 
+
+
 ## User Stories
 
 Business:
@@ -52,6 +57,9 @@ Business:
 
 Customer:
 - As a customer user I want to:
+     - I want to find good deals
+    ![C_User_good_deals](testing_img_docs/user_stories/signup.png)
+
     - Be informed about local offers/deals and be able to search for specific deals
     ![C_User_better_informed](testing_img_docs/user_stories/c_user_offers_search.png)
 
@@ -61,13 +69,11 @@ Customer:
     - I want to be able to leave reviews on products and services and businesses.
     ![C_User_leave_reviews](testing_img_docs/user_stories/c_user_leave_review.png)
 
-    - I want to find good deals
-    ![C_User_good_deals](testing_img_docs/user_stories/signup.png)
-
-    - I want to edit my contact details profiles
+    - I want to edit my contact details
     ![C_User_edit_profile](testing_img_docs/user_stories/c_user_profile.png)
 
 ## Manual Testing
+- App has been tested extensively by friends and I and no reported or noticable issues or faults. 
 
 ## Site Responsiveness
 
@@ -124,4 +130,4 @@ This is what has comeback:
 - Unfortunately could not find a way to allow files with gap in name to be uploaded to the app. Have included if statement that if this occurs the user will have to rename file.
 
 - Initial plans was to have both Business users and Consumer users login through the same portal however was unable to crack this. System (and me most likely) were unable to distinguish between the different users. To counteract this I made 2 seperate login portals for each user to login through (see below)
-![login_portal_issue](testing_img_docs/imgfilename_notappearing.png)
+![login_portal_issue](testing_img_docs/user_stories/login.png)

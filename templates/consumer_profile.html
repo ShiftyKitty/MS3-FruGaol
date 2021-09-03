@@ -5,7 +5,7 @@
         {% if session.consumer|lower == consumer_user.consumer_email_address|lower %}
             <div class="row card-panel">
                 <div class="col s12 m4 l4 card-panel logo-container">
-                    <img src="{{ url_for('file', filename=consumer_user['profile_pic'] )}}">
+                    <img src="{{ url_for('file', filename=consumer_user['profile_pic'] )}}" alt="profile_pic">
                 </div>
                 <div class="col s12 m7 l7 push-l1 push-m1 consumer-details card-panel">
                     <div class="col s12">

@@ -89,7 +89,7 @@ p {
   text-decoration: underline;
 }
 
-/* offers page/ home page */
+/* offers page/home page */
 .search-button button {
   height: 100%;
   padding: 0 4%;
@@ -172,31 +172,10 @@ blockquote {
   font-size: 150%;
   }
 
-
-
-/* .social-media a {
-  position: relative;
-  text-align: center;
-  bottom: 0;
-  margin: auto;
-} */
-
-/* .social-media div {
-  position: relative;
-  border: 1px solid black;
-  border-radius: 50%;
-  padding: 0%;
-  float: right;
-} */
-
 div .col .social-media-container {
   position: relative;
-  /* height: 8vh;
-  width: 8vh; */
   margin: 7%;
 }
-
-
 
 .contact-info p {
   font-size: 120%;
@@ -211,8 +190,8 @@ div .col .social-media-container {
   font-size: 120%;
 }
 
-/* offer profile */
 
+/* offer profile */
 .price {
   height: 17vh;
 }
@@ -287,7 +266,6 @@ input#rate-5:checked ~ label {
   text-decoration: underline;
 }
 
-
 .underline {
   text-decoration: underline;
 }
@@ -314,14 +292,13 @@ input[type="file"] {
   display: none;
 }
 
-
 .image-preview  {
   width: 100%;
   height: 15vh;
   border: 2px solid #dddddd;
   margin-top: 8%;
 
-  /* default text */
+/* default text */
   display: flex;
   align-items: center;
   justify-content: center;
