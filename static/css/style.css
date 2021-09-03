@@ -249,6 +249,10 @@ input#rate-5:checked ~ label {
   }
 
 /* my offers */
+.green-head h3 {
+  color:rgb(40,184,115);
+}
+
 .my-offer-container {
   border: 1px solid black;
   height: 100%;
