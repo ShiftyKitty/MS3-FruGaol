@@ -4,7 +4,7 @@
 07/08/2021 <br>
 The purpose/ambition of Project FruGaol is to create an application that helps promote and encourage local commerce. This app is to connect SME’s to consumers in a more effective and meaningful way. Ultimately I want to cut the fuss out of advertising and give businesses who are on the app a platform to be able to generate more business in the locality and offer real time promos, discounts and services to people/consumers that might be looking for it. 
 
-The idea in my head of level of connection is the likes of petrol stations can advertise their fuel prices and items or hairdressers/cleaners can advertise there availability. In this fast paced world I want this app to demonstrate and portray what business has to user and what user has to user in as real time as possible.
+The idea in my head of level of connection is the likes of petrol stations can advertise their fuel prices and items or hairdressers/cleaners can advertise there availability. I want this app to demonstrate what business has to offer to user and what user has to offer to user in as real time as possible. Tinder for goods and services (that came out wrong)
 
 I also want to create an award system so that consumers are rewarded for informing other consumers of special promos/prices and whether they recommend doing business with a business.(maybe not for this assignment) 
 
