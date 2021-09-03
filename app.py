@@ -24,6 +24,7 @@ app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "JFIF", "WEBP"]
 mongo = PyMongo(app)
 
 
+# offers/homepage
 @app.route("/")
 @app.route("/offers")
 def offers():
@@ -31,11 +32,13 @@ def offers():
     return render_template("offers.html", offers=offers)
 
 
+# signup
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     return render_template("signup.html")
 
 
+# img type check. taken from flask
 def allowed_img(filename):
     if "." not in filename:
         return False
@@ -48,6 +51,7 @@ def allowed_img(filename):
         return False
 
 
+# img filesize check. taken from flask
 def allowed_img_filesize(filesize):
 
     if int(filesize) <= app.config["MAX_IMAGE_FILESIZE"]:
@@ -56,6 +60,7 @@ def allowed_img_filesize(filesize):
         return False
 
 
+# business signup. file security from flask official docs
 @app.route("/business_signup", methods=["GET", "POST"])
 def business_signup():
     if request.method == "POST":
@@ -131,6 +136,7 @@ def business_signup():
     return render_template("business_signup.html")
 
 
+# consumer signup
 @app.route("/consumer_signup", methods=["GET", "POST"])
 def consumer_signup():
     if request.method == "POST":
@@ -192,11 +198,13 @@ def consumer_signup():
     return render_template("consumer_signup.html")
 
 
+# file upload. code from pretty printed. referenced in readme
 @app.route("/file/<filename>")
 def file(filename):
     return mongo.send_file(filename)
 
 
+# login
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -251,6 +259,7 @@ def login():
     return render_template("login.html")
 
 
+# consumer login
 @app.route("/consumer_login", methods=["GET", "POST"])
 def consumer_login():
     if request.method == "POST":
@@ -282,6 +291,7 @@ def consumer_login():
     return render_template("login.html")
 
 
+# business profile session user
 @app.route("/profile/<business_name>/", methods=["GET", "POST"])
 def profile(business_name):
     # grab the session user's business_name from db
@@ -297,6 +307,7 @@ def profile(business_name):
     return redirect(url_for("login"))
 
 
+# edit business profile
 @app.route("/edit_profile/<business_name>/", methods=["GET", "POST"])
 def edit_profile(business_name):
     if request.method == "POST":
@@ -365,6 +376,7 @@ def edit_profile(business_name):
     return render_template("edit_profile.html", business_name=business_name)
 
 
+# consumer profile
 @app.route("/consumer_profile/<consumer_email_address>",
            methods=["GET", "POST"])
 def consumer_profile(consumer_email_address):
@@ -382,6 +394,7 @@ def consumer_profile(consumer_email_address):
     return redirect(url_for("login"))
 
 
+# business profile public view
 @app.route("/business_profile/<business_name>", methods=["GET", "POST"])
 def business_profile(business_name):
     # grab the business info for customers from db
@@ -394,6 +407,7 @@ def business_profile(business_name):
                            business_users=business_users)
 
 
+# logout
 @app.route("/logout")
 def logout():
     # remove user from session cookies
@@ -403,6 +417,7 @@ def logout():
     return redirect(url_for("login"))
 
 
+# consumer logout
 @app.route("/consumer_logout")
 def consumer_logout():
     # remove consumer from session cookies
@@ -412,10 +427,11 @@ def consumer_logout():
     return redirect(url_for("login"))
 
 
+# create offer
 @app.route("/create_offer", methods=["GET", "POST"])
 def create_offer():
     if request.method == "POST":
-        # business offer img saved to mongodb
+        # offer img saved to mongodb
         if request.files:
             offer_img = request.files["offer_img"]
 
@@ -460,6 +476,7 @@ def create_offer():
     return render_template("create_offer.html")
 
 
+# offer profile
 @app.route("/offer/<offer_id>", methods=["GET", "POST"])
 def offer(offer_id):
     # grab the offer id from db
@@ -472,6 +489,7 @@ def offer(offer_id):
                            reviews=reviews, consumer_users=consumer_users)
 
 
+# my offers
 @app.route("/my_offers/<business_name>", methods=["GET", "POST"])
 def my_offers(business_name):
     # grab the session user's business_name from db
@@ -488,11 +506,12 @@ def my_offers(business_name):
         "my_offers.html", offers=offers, business_name=business_name)
 
 
+# edit offer
 @app.route("/edit_offer/<offer_id>", methods=["GET", "POST"])
 def edit_offer(offer_id):
     offer = mongo.db.offers.find_one({"_id": ObjectId(offer_id)})
     if request.method == "POST":
-        # business offer img saved to mongodb
+        # offer img saved to mongodb
         if request.files:
             offer_img = request.files["offer_img"]
 
@@ -536,6 +555,7 @@ def edit_offer(offer_id):
     return render_template("edit_offer.html", offer=offer)
 
 
+# offer finish/delete
 @app.route("/offer_finish/<offer_id>")
 def offer_finish(offer_id):
     mongo.db.offers.remove({"_id": ObjectId(offer_id)})
@@ -543,6 +563,7 @@ def offer_finish(offer_id):
     return redirect(url_for("offers"))
 
 
+# create review
 @app.route("/create_review/<offer_id>", methods=["GET", "POST"])
 def create_review(offer_id):
     if request.method == "POST":
@@ -568,6 +589,7 @@ def create_review(offer_id):
     return render_template("offer.html")
 
 
+# search offers
 @app.route("/search_offers", methods=["GET", "POST"])
 def search_offers():
     query = request.form.get("query")
@@ -576,20 +598,7 @@ def search_offers():
     return render_template("offers.html", offers=offers, query=query)
 
 
-@app.route("/search_business", methods=["GET", "POST"])
-def search_business():
-    business_search = request.form.get("business_search")
-    business_users = list(mongo.db.business_users.find(
-        {"$text": {"$search": business_search}}))
-    return render_template("businesses.html", business_users=business_users)
-
-
-@app.route("/businesses", methods=["GET", "POST"])
-def businesses():
-    businesses = mongo.db.business_users.find()
-    return render_template("businesses.html", businesses=businesses)
-
-
+# edit consumer profile
 @app.route("/edit_consumer_profile/<consumer_email_address>",
            methods=["GET", "POST"])
 def edit_consumer_profile(consumer_email_address):

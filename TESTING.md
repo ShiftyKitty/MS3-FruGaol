@@ -12,6 +12,7 @@ All codes used will be put through the relevant code validators once all user te
 - [Bugs Encountered](#bugs-encountered) <br>
 - [Outstanding Bugs](#outstanding-bugs) <br>
 
+
 ## Code Validation
 
 - CSS passed through [W3C CSS Validator](https://jigsaw.w3.org/css-validator/validator) with no Errors found
@@ -22,7 +23,6 @@ All codes used will be put through the relevant code validators once all user te
 - Javascript passed through [JS Hint](https://jshint.com/). All errors presented have now been fixed. 
 
 - Python passed through [PEP8 Validator](http://pep8online.com/checkresult). All python code is now PEP8 compliant
-
 
 
 ## User Stories
@@ -79,10 +79,10 @@ Customer:
     ![C_User_edit_profile](testing_img_docs/user_stories/c_user_profile.png)
 
 ## Manual Testing
-- App has been tested extensively by friends and I and no reported or noticable issues or faults. 
+- App has been tested extensively by friends and I and no reported or noticable issues or faults present. 
 
 ## Site Responsiveness
-
+- App was passed through [Responsive Design Checker](https://responsivedesignchecker.com/) with no notable issues coming back
 
 ## Bugs Encountered
 02/09/2021: <br>
@@ -133,7 +133,7 @@ This is what has comeback:
 - Fix: Now fixed. Have introduced image preview window so user can see image they have selected
 
 ## Outstanding Bugs:
-- Unfortunately could not find a way to allow files with gap in name to be uploaded to the app. Have included if statement that if this occurs the user will have to rename file.
+- Unfortunately could not find a way to allow files with gap in name to be uploaded to the app. Have included if statement that if this occurs the user will be prompted to rename file.
 
 - Initial plans was to have both Business users and Consumer users login through the same portal however was unable to crack this. System (and me most likely) were unable to distinguish between the different users. To counteract this I made 2 seperate login portals for each user to login through (see below)
 ![login_portal_issue](testing_img_docs/user_stories/login.png)
