@@ -112,7 +112,7 @@ Whats on the table?
     - Edit details, similar to business profile, delete account option. 
 
 
-User Storys:
+User Stories:
 
 Business:
 - As a business end user I want to:
