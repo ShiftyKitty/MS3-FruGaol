@@ -655,4 +655,4 @@ def edit_consumer_profile(consumer_email_address):
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
-            debug=True)
+            debug=False)
