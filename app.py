@@ -70,11 +70,13 @@ def business_signup():
                     return redirect(url_for("business_signup"))
 
             if logo.filename == '':
-                flash("No Business Logo Detected. Please add Logo and try again")
+                flash(
+                    "No Business Logo Detected. Please add Logo and try again")
                 return redirect(url_for("business_signup"))
 
             if ' ' in logo.filename:
-                flash("Please remove all gaps from Logo filename and try again")
+                flash(
+                    "Please remove all gaps from Logo filename and try again")
                 return redirect(url_for("business_signup"))
 
             if allowed_img(logo.filename):
@@ -82,7 +84,7 @@ def business_signup():
                 mongo.save_file(filename, logo)
                 print("Logo saved")
             else:
-                flash("File extension is not permitted. Logo upload must be 'JPEG', 'JPG', 'PNG', 'JFIF', 'WEBP'")
+                flash("File extension not permitted. Please try again.")
                 return redirect(url_for("business_signup"))
 
         # check if business_name already exists in db
@@ -90,7 +92,8 @@ def business_signup():
             {"business_name": request.form.get("business_name").upper()})
 
         if existing_user:
-            flash("Business Name already exists. Please try again with different Business Name.")
+            flash(
+                "Business Name already exists. Please try again.")
             return redirect(url_for("business_signup"))
 
         business_signup = {
@@ -142,7 +145,8 @@ def consumer_signup():
                     return redirect(url_for("consumer_signup"))
 
             if ' ' in profile_pic.filename:
-                flash("Please remove all gaps from Profile filename and try again")
+                flash(
+                    "Please remove all gaps from Profile filename")
                 return redirect(url_for("consumer_signup"))
 
             if allowed_img(profile_pic.filename):
@@ -202,7 +206,8 @@ def login():
 
         if existing_user:
             # ensure hashed password matches user input
-            if check_password_hash(existing_user["password"], request.form.get("password")):
+            if check_password_hash(
+                    existing_user["password"], request.form.get("password")):
                 session["user"] = request.form.get("business_name").upper()
                 flash("Welcome, {}".format(request.form.get("business_name")))
                 return redirect(url_for(
@@ -225,7 +230,9 @@ def login():
 
         if existing_consumer:
             # ensure hashed password matches user input
-            if check_password_hash(existing_user["consumer_password"], request.form.get("consumer_password")):
+            if check_password_hash(
+                existing_user["consumer_password"], request.form.get(
+                    "consumer_password")):
                 session["consumer"] = request.form.get(
                     "consumer_email_address").lower()
                 return redirect(url_for(
@@ -284,8 +291,8 @@ def profile(business_name):
     business_users = mongo.db.business_users.find()
 
     if session["user"]:
-        return render_template(
-            "profile.html", business_name=business_name, business_users=business_users)
+        return render_template("profile.html", business_name=business_name,
+                               business_users=business_users)
 
     return redirect(url_for("login"))
 
@@ -310,7 +317,8 @@ def edit_profile(business_name):
                     "edit_profile", business_name=business_name))
 
             if ' ' in logo.filename:
-                flash("Please remove all gaps from Logo filename and try again")
+                flash(
+                    "Please remove all gaps from Logo filename and try again")
                 return redirect(url_for(
                     "edit_profile", business_name=business_name))
 
@@ -357,7 +365,8 @@ def edit_profile(business_name):
     return render_template("edit_profile.html", business_name=business_name)
 
 
-@app.route("/consumer_profile/<consumer_email_address>", methods=["GET", "POST"])
+@app.route("/consumer_profile/<consumer_email_address>",
+           methods=["GET", "POST"])
 def consumer_profile(consumer_email_address):
     # consumer profile deetz
     consumer_email_address = mongo.db.consumer_users.find_one(
@@ -366,8 +375,9 @@ def consumer_profile(consumer_email_address):
     consumer_users = mongo.db.consumer_users.find()
 
     if session["consumer"]:
-        return render_template(
-            "consumer_profile.html", consumer_email_address=consumer_email_address, consumer_users=consumer_users)
+        return render_template("consumer_profile.html",
+                               consumer_email_address=consumer_email_address,
+                               consumer_users=consumer_users)
 
     return redirect(url_for("login"))
 
@@ -379,8 +389,9 @@ def business_profile(business_name):
     business_name = mongo.db.business_users.find_one(
         {"business_name": business_name})["business_name"]
 
-    return render_template(
-        "business_profile.html", business_name=business_name, business_users=business_users)
+    return render_template("business_profile.html",
+                           business_name=business_name,
+                           business_users=business_users)
 
 
 @app.route("/logout")
@@ -415,11 +426,13 @@ def create_offer():
                     return redirect(url_for("create_offer"))
 
             if offer_img.filename == '':
-                flash("No Offer Image Detected. Please add Image and try again")
+                flash(
+                    "No Offer Image Detected. Please add Image and try again")
                 return redirect(url_for("create_offer"))
 
             if ' ' in offer_img.filename:
-                flash("Please remove all gaps from Image filename and try again")
+                flash(
+                    "Please remove all gaps from Image filename and try again")
                 return redirect(url_for("create_offer"))
 
             if allowed_img(offer_img.filename):
@@ -455,8 +468,8 @@ def offer(offer_id):
     reviews = mongo.db.reviews.find()
     consumer_users = mongo.db.consumer_users.find()
 
-    return render_template(
-        "offer.html", offer=offer, offers=offers, reviews=reviews, consumer_users=consumer_users)
+    return render_template("offer.html", offer=offer, offers=offers,
+                           reviews=reviews, consumer_users=consumer_users)
 
 
 @app.route("/my_offers/<business_name>", methods=["GET", "POST"])
@@ -490,11 +503,13 @@ def edit_offer(offer_id):
                     return redirect(url_for("edit_offer"))
 
             if offer_img.filename == '':
-                flash("No Offer Image Detected. Please add Image and try again")
+                flash(
+                    "No Offer Image Detected. Please add Image and try again")
                 return render_template("edit_offer.html", offer=offer)
 
             if ' ' in offer_img.filename:
-                flash("Please remove all gaps from Image filename and try again")
+                flash(
+                    "Please remove all gaps from Image filename and try again")
                 return render_template("edit_offer.html", offer=offer)
 
             if allowed_img(offer_img.filename):
@@ -547,8 +562,8 @@ def create_review(offer_id):
 
         mongo.db.reviews.insert_one(customer_review)
         flash("Review Submitted")
-        return redirect(url_for(
-            "offer", offer=offer, offer_id=offer_id, reviews=reviews, consumer_user=consumer_user))
+        return redirect(url_for("offer", offer=offer, offer_id=offer_id,
+                                reviews=reviews, consumer_user=consumer_user))
 
     return render_template("offer.html")
 
@@ -575,7 +590,8 @@ def businesses():
     return render_template("businesses.html", businesses=businesses)
 
 
-@app.route("/edit_consumer_profile/<consumer_email_address>", methods=["GET", "POST"])
+@app.route("/edit_consumer_profile/<consumer_email_address>",
+           methods=["GET", "POST"])
 def edit_consumer_profile(consumer_email_address):
     if request.method == "POST":
         # profile pic saved to mongodb
@@ -585,13 +601,13 @@ def edit_consumer_profile(consumer_email_address):
 
             if not allowed_img_filesize(request.cookies["filesize"]):
                 flash("Filesize exceeded maximum limit")
-                return redirect(url_for(
-                    "edit_consumer_profile", consumer_email_address=consumer_email_address))
+                return redirect(url_for("edit_consumer_profile",
+                                consumer_email_address=consumer_email_address))
 
         if ' ' in profile_pic.filename:
             flash("Please remove all gaps from Profile filename and try again")
-            return redirect(url_for(
-                "edit_consumer_profile", consumer_email_address=consumer_email_address))
+            return redirect(url_for("edit_consumer_profile",
+                            consumer_email_address=consumer_email_address))
 
         if allowed_img(profile_pic.filename):
             mongo.save_file(secure_filename(
@@ -623,8 +639,8 @@ def edit_consumer_profile(consumer_email_address):
     consumer_email_address = mongo.db.consumer_users.find_one(
         {"consumer_email_address": session["consumer"]})
 
-    return render_template(
-        "edit_consumer_profile.html", consumer_email_address=consumer_email_address)
+    return render_template("edit_consumer_profile.html",
+                           consumer_email_address=consumer_email_address)
 
 
 if __name__ == "__main__":

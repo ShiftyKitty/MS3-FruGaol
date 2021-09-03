@@ -1,3 +1,6 @@
+
+// code taken from code institute learning materials and edited for assignment
+
 $(document).ready(function () {
     $(".sidenav").sidenav({edge: "right"});
     $(".collapsible").collapsible();
@@ -12,6 +15,8 @@ $(document).ready(function () {
         }
     });
 
+    // code taken from code institute learning materials and edited for assignment
+    // code for product/service dropdown on create offer page
     validateMaterializeSelect();
     function validateMaterializeSelect() {
         let classValid = { "border-bottom": "1px solid #4caf50", "box-shadow": "0 1px 0 0 #4caf50" };
@@ -41,6 +46,8 @@ $(document).ready(function () {
     }
 });
 
+// code for star widget for review
+// taken from Coding Nepal Web and referenced in Readme
 const btn = document.querySelector("button");
 const post = document.querySelector(".post");
 const widget = document.querySelector(".star-widget");
@@ -51,11 +58,13 @@ const editBtn = document.querySelector(".edit");
         editBtn.onclick = ()=>{
         widget.style.display = "block";
         post.style.display = "none";
-    }
+    };
     return false;
-}
+};
 
 
+// code for image preview on sign up and edit pages
+// code taken from dcode and referenced in ReadMe
 let offerImg = document.getElementById("offer_img");
 let Logo = document.getElementById("logo");
 const profilePic = document.getElementById("profile_pic");
@@ -64,80 +73,77 @@ const previewContainer = document.getElementById("imagePreview");
 const previewImage = previewContainer.querySelector(".image-preview__image"); 
 const previewDefaultText = previewContainer.querySelector(".image-preview__default-text"); 
 
-
-console.log(offerImg)
-console.log(Logo)
-console.log(profilePic)
+// logo image preview
 document.addEventListener("DOMContentLoaded", function() {
-Logo.addEventListener("change", function() {
-    const file = this.files[0];
-
-    if (file) {
-        const reader = new FileReader();
-
-        previewDefaultText.style.display = "none";
-        previewImage.style.display = "block";
-
-        reader.addEventListener("load", function() {
-            console.log(this);
-            previewImage.setAttribute("src", this.result);
-        });
-
-        reader.readAsDataURL(file);
-    } else {
-        previewDefaultText.style.display = null;
-        previewImage.style.display = null;
-        previewImage.setAttribute("src", "");
-    }
+  Logo.addEventListener("change", function() {
+      const file = this.files[0];
+  
+      if (file) {
+          const reader = new FileReader();
+  
+          previewDefaultText.style.display = "none";
+          previewImage.style.display = "block";
+  
+          reader.addEventListener("load", function() {
+              console.log(this);
+              previewImage.setAttribute("src", this.result);
+          });
+  
+          reader.readAsDataURL(file);
+      } else {
+          previewDefaultText.style.display = null;
+          previewImage.style.display = null;
+          previewImage.setAttribute("src", "");
+      }
+  });
 });
-});
 
-
+// offer image preview
 document.addEventListener("DOMContentLoaded", function() {
-offerImg.addEventListener("change", function() {
-    const file = this.files[0];
-
-    if (file) {
-        const reader = new FileReader();
-
-        previewDefaultText.style.display = "none";
-        previewImage.style.display = "block";
-
-        reader.addEventListener("load", function() {
-            console.log(this);
-            previewImage.setAttribute("src", this.result);
-        });
-
-        reader.readAsDataURL(file);
-    } else {
-        previewDefaultText.style.display = null;
-        previewImage.style.display = null;
-        previewImage.setAttribute("src", "");
-    }
+  offerImg.addEventListener("change", function() {
+      const file = this.files[0];
+  
+      if (file) {
+          const reader = new FileReader();
+  
+          previewDefaultText.style.display = "none";
+          previewImage.style.display = "block";
+  
+          reader.addEventListener("load", function() {
+              console.log(this);
+              previewImage.setAttribute("src", this.result);
+          });
+  
+          reader.readAsDataURL(file);
+      } else {
+          previewDefaultText.style.display = null;
+          previewImage.style.display = null;
+          previewImage.setAttribute("src", "");
+      }
+  });
 });
-});
 
-
+// profile pic image preview
 document.addEventListener("DOMContentLoaded", function() {
-profilePic.addEventListener("change", function() {
-    const file = this.files[0];
-
-    if (file) {
-        const reader = new FileReader();
-
-        previewDefaultText.style.display = "none";
-        previewImage.style.display = "block";
-
-        reader.addEventListener("load", function() {
-            console.log(this);
-            previewImage.setAttribute("src", this.result);
-        });
-
-        reader.readAsDataURL(file);
-    } else {
-        previewDefaultText.style.display = null;
-        previewImage.style.display = null;
-        previewImage.setAttribute("src", "");
-    }
-});
+  profilePic.addEventListener("change", function() {
+      const file = this.files[0];
+  
+      if (file) {
+          const reader = new FileReader();
+  
+          previewDefaultText.style.display = "none";
+          previewImage.style.display = "block";
+  
+          reader.addEventListener("load", function() {
+              console.log(this);
+              previewImage.setAttribute("src", this.result);
+          });
+  
+          reader.readAsDataURL(file);
+      } else {
+          previewDefaultText.style.display = null;
+          previewImage.style.display = null;
+          previewImage.setAttribute("src", "");
+      }
+  });
 });
