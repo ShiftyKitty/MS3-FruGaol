@@ -10,8 +10,7 @@
 
     <div class="row">
         <form class="col s12 m8 offset-m2" method="POST" enctype="multipart/form-data" action="{{ url_for('edit_profile', business_name=session['user']) }}">
-            <div class="card-panel">
-                <!-- business name -->			 
+            <div class="card-panel">			 
 				<!-- Sign Up name -->
                 <div class="row">
 					<div class="input-field col s12 m6">
@@ -33,9 +32,7 @@
 						<input id="business_email_address" name="business_email_address" type="email" value="{{ business_name.business_email_address }}" class="validate" required>
 						<label for="business_email_address">Email Address</label>
 					</div>
-                
                 <!-- business contact number -->
-                
 					<div class="input-field col s12 m6">
 						<i class="fas fa-phone-alt prefix text-darken-4"></i>
 						<input id="business_contact_number" name="business_contact_number" value="{{ business_name.business_contact_number }}" type="number" class="validate" required>
@@ -73,16 +70,13 @@
 						<input id="facebook" name="facebook" type="text" value="{{ business_name.facebook }}" class="validate">
 						<label for="facebook">Facebook</label>
 					</div>
-                
                 <!-- instagram -->
 					<div class="input-field col s12 m4">
 						<i class="fab fa-instagram prefix text-darken-4"></i>
 						<input id="instagram" name="instagram" type="text" value="{{ business_name.instagram }}" class="validate">
 						<label for="instagram">Instagram</label>
 					</div>
-               
                 <!-- twitter -->
-                
 					<div class="input-field col s12 m4">
 						<i class="fab fa-twitter prefix text-darken-4"></i>
 						<input id="twitter" name="twitter" type="text" value="{{ business_name.twitter }}" class="validate">

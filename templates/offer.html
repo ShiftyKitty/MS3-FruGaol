@@ -30,11 +30,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="overrall_offer_reviews card-panel">
-                <div class="col s8">
-                    <h5></h5>
-                </div>
-            </div> -->
             <div class="row">
                 <div class="col s12 m6">
                     <div class="offer_description card-panel">
@@ -63,7 +58,6 @@
                 <h5 class="underline">Reviews</h5>
             </div>
             {% if session.consumer %}
-                
                 <div class="row card-panel">
                     <h6>Leave a Review</h6>
                     <form class="col s12 center-align" method="POST" enctype="multipart/form-data" action="{{ url_for('create_review', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">
@@ -119,6 +113,5 @@
         </div>
     </div>
 
-	
 
 {% endblock %}
