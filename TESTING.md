@@ -29,6 +29,7 @@ This is what has comeback:
 
 - User attempted to sign up without uploading image. 
 - Fix: Have made flash message easier to understand requesting that user must add logo for sign up. 
+- Have also introduced h6 heading above image upload to inform user that logo upload is required for sign up
 
 
 #### Text Align Issue - Business Profile
