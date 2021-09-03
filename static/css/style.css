@@ -53,9 +53,40 @@ p {
   font-family: 'Roboto', sans-serif;
 }
 
+.input-field i {
+  color: rgb(40,184,115);
+}
+
+.search-button button {
+  background-color: rgb(40,184,115);
+}
+
+.register button {
+  background-color: rgb(40,184,115);
+}
+
 /* flashes */
 .flashes h4 {
     line-height: 2;
+}
+
+/* login */
+.login button {
+  background-color: rgb(40,184,115);
+}
+
+/* signup */
+.signup .card-panel {
+  background-color: rgb(40,184,115);
+}
+
+.signup .card-panel a {
+  color: white;
+}
+
+
+.signup .card-panel a:hover {
+  text-decoration: underline;
 }
 
 /* offers page/ home page */
@@ -110,6 +141,7 @@ blockquote {
 
 .website a {
   font-size: 120%;
+  max-width: 5vw;
 }
 
 .logo-container {

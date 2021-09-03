@@ -16,7 +16,7 @@
                                     <img src="{{ url_for('file', filename=offer['offer_img'] )}}">
                                 </div>
                                 <p class="underline">
-                                    <a href="{{ url_for('offer', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">{{ offer.offer_name }}</a>
+                                    <strong><a href="{{ url_for('offer', offer_id=offer._id, reviews=reviews, consumer_users=consumer_users) }}">{{ offer.offer_name }}</a></strong>
                                 </p>
                                 <p>{{ offer.offer_type.capitalize() }}</p>
                                 <p>{{ offer.offer_description }}</p>

@@ -27,7 +27,7 @@ mongo = PyMongo(app)
 @app.route("/")
 @app.route("/offers")
 def offers():
-    offers = mongo.db.offers.find()
+    offers = list(mongo.db.offers.find())
     return render_template("offers.html", offers=offers)
 
 
@@ -415,7 +415,7 @@ def create_offer():
                     return redirect(url_for("create_offer"))
 
             if offer_img.filename == '':
-                flash("No filename. Please name file and try again")
+                flash("No Offer Image Detected. Please add Image and try again")
                 return redirect(url_for("create_offer"))
 
             if ' ' in offer_img.filename:
@@ -432,6 +432,7 @@ def create_offer():
         offer = {
             "offer_name": request.form.get("offer_name"),
             "offer_type": request.form.get("offer_type"),
+            "offer_category": request.form.get("offer_category"),
             "offer_description": request.form.get("offer_description"),
             "old_price": request.form.get("old_price"),
             "offer_price": request.form.get("offer_price"),
@@ -489,7 +490,7 @@ def edit_offer(offer_id):
                     return redirect(url_for("edit_offer"))
 
             if offer_img.filename == '':
-                flash("No filename. Please name file and try again")
+                flash("No Offer Image Detected. Please add Image and try again")
                 return render_template("edit_offer.html", offer=offer)
 
             if ' ' in offer_img.filename:
@@ -506,6 +507,7 @@ def edit_offer(offer_id):
         edit = {
             "offer_name": request.form.get("offer_name"),
             "offer_type": request.form.get("offer_type"),
+            "offer_category": request.form.get("offer_category"),
             "offer_description": request.form.get("offer_description"),
             "old_price": request.form.get("old_price"),
             "offer_price": request.form.get("offer_price"),
@@ -555,7 +557,8 @@ def create_review(offer_id):
 def search_offers():
     query = request.form.get("query")
     offers = list(mongo.db.offers.find({"$text": {"$search": query}}))
-    return render_template("offers.html", offers=offers)
+
+    return render_template("offers.html", offers=offers, query=query)
 
 
 @app.route("/search_business", methods=["GET", "POST"])

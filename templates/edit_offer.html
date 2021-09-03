@@ -13,15 +13,15 @@
         
         <div class="row">
             <div class="input-field col s12">
-                <i class="fas fa-pencil-alt prefix light-blue-text text-darken-4"></i>
+                <i class="fas fa-pencil-alt prefix text-darken-4"></i>
                 <input id="offer_name" name="offer_name" minlength="5" maxlength="50"
                     type="text" value="{{ offer.offer_name }}" class="validate" required>
                 <label for="offer_name">Offer Name</label>
             </div>
         </div>
         <div class="row">
-            <div class="input-field col s12">
-                <i class="fas fa-folder-open prefix light-blue-text text-darken-4"></i>
+            <div class="input-field col s12 m6">
+                <i class="fas fa-folder-open prefix text-darken-4"></i>
                 <select id="offer_type" name="offer_type" class="validate" required>
                     <option value="" disabled selected>Product / Service</option>
                     <option value="product">Product</option>
@@ -29,10 +29,15 @@
                 </select>
                 <label for="offer_type">Product / Service</label>
             </div>
+            <div class="input-field col s12 m6">
+                <i class="fas fa-search prefix text-darken-4"></i>
+                <input id="offer_category" name="offer_category" type="text" value="{{ offer.offer_category }}" class="validate" required>
+                <label for="offer_category">Offer Category (What you want offer to show up under)</label>
+            </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+                <i class="fas fa-align-left prefix text-darken-4"></i>
                 <textarea id="offer_description" name="offer_description" minlength="5"
                     maxlength="200" class="materialize-textarea validate" required>{{- offer.offer_description -}}</textarea>
                 <label for="offer_description">Offer Description</label>
@@ -41,12 +46,12 @@
         <!-- prices -->
         <div class="row">
             <div class="input-field col s12 m6">
-                <i class="fas fa-euro-sign prefix light-blue-text text-darken-4"></i>
+                <i class="fas fa-euro-sign prefix text-darken-4"></i>
                 <input id="old_price" value="{{ offer.old_price }}" name="old_price" type="number" class="validate" required>
                 <label for="old_price">Old Price</label>
             </div>
             <div class="input-field col s12 m6">
-                <i class="fas fa-euro-sign prefix light-blue-text text-darken-4"></i>
+                <i class="fas fa-euro-sign prefix text-darken-4"></i>
                 <input id="offer_price" value="{{ offer.offer_price }}" name="offer_price" type="number" class="validate" required>
                 <label for="offer_price">Current Price</label>
             </div>
@@ -55,7 +60,7 @@
         <div class="row">
 			<h6>Updated offer Image is required to successfully edit offer.</h6>
             <div class="input-field col s12 l6">
-                <i class="fas fa-image prefix light-blue-text text-darken-4"></i>
+                <i class="fas fa-image prefix text-darken-4"></i>
                 <input id="offer_img" name="offer_img" value="{{ offer.offer_img }}" type="file" class="validate">
 				<label for="offer_img">Update Image (required)</label>
             </div>
@@ -67,9 +72,9 @@
         </div>
         <br>
         <!-- submit button -->
-        <div class="row">
+        <div class="row register">
             <div class="col s12 center-align">
-                <button type="submit" class="btn-large light-blue darken-1 text-shadow">
+                <button type="submit" class="btn-large darken-1 text-shadow">
                     Edit Offer <i class="fas fa-plus-square right"></i>
                 </button>
             </div>
